@@ -1,5 +1,5 @@
 package entidades;
 
-public class Voluntario {
+public class Voluntario extends Persona {
 
 }
