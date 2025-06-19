@@ -25,3 +25,4 @@ public class Receta {
 	        this.descripcion = descripcion;
 	}
 }
+
