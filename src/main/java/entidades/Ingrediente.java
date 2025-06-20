@@ -1,10 +1,18 @@
 package entidades;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Ingrediente {
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 	private String nombre;
-	private Integer calorias;
+	private Integer calorias, cantidad;
 	
 	public Ingrediente(String nombre, Integer calorias) {
 		this.nombre = nombre;
@@ -30,6 +38,14 @@ public class Ingrediente {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
 	}
 	
 }

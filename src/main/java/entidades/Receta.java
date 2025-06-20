@@ -12,6 +12,7 @@ public class Receta {
     @GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	private String nombre, descripcion;
+
 	
 	public Receta(String nombre, String descripcion) {
 		this.nombre = nombre;

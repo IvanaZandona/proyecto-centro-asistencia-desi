@@ -15,7 +15,8 @@ public class RecetaServiceImpl implements RecetaService{
 		this.recetaRepo = recetaRepo;
 		}
 	
-	public void crearreceta() {
+	public String crearReceta() {
+		return null;
 		
 	}
 }
