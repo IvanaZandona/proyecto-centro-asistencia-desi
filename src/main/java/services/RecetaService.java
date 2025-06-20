@@ -1,8 +1,5 @@
 package services;
 
-import org.springframework.stereotype.Service;
-
-@Service
-public class RecetaService {
+public interface RecetaService {
 
 }

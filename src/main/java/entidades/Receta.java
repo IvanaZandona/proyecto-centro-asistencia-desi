@@ -1,7 +1,15 @@
 package entidades;
 
-public class Receta {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+@Entity
+public class Receta {
+	
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	private String nombre, descripcion;
 	
@@ -32,5 +40,11 @@ public class Receta {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	@Override
+	public String toString() {
+		return String.format(descripcion, null);
+	}
+	
 }
 
