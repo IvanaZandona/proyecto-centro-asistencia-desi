@@ -1,4 +1,4 @@
-package services;
+package servicios;
 
 public interface RecetaService {
 
