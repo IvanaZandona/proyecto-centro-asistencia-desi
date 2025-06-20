@@ -3,7 +3,7 @@ import java.time.LocalDate;
 
 public class Preparacion {
 
-	//private String id;
+	private Long id;
 	private Integer totalRacionespreparadas, stockRacionesRestantes;
 	private LocalDate fechaCoccion;
 	
@@ -36,4 +36,12 @@ public class Preparacion {
     public void setFechaCoccion(LocalDate fechaCoccion) {
         this.fechaCoccion = fechaCoccion;
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }

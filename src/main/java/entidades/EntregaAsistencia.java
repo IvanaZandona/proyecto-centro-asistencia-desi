@@ -1,10 +1,15 @@
 package entidades;
 
+import java.time.LocalDate;
+import jakarta.persistence.Entity;
+
+
+@Entity
 public class EntregaAsistencia {
 
 	private LocalDate fecha;
 	private Integer cantidadRaciones;
-	//private String id;
+	private Long id;
 	
 	public EntregaAsistencia(LocalDate fecha, Integer cantidadRaciones){
 		this.fecha = fecha;
@@ -22,5 +27,13 @@ public class EntregaAsistencia {
     }
 	public void setCantidadRaciones(Integer cantidadRaciones) {
 		this.cantidadRaciones = cantidadRaciones;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }

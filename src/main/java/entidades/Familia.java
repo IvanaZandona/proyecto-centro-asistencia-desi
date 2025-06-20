@@ -1,5 +1,7 @@
 package entidades;
 
+import java.time.LocalDate;
+
 public class Familia {
 
 	private Integer nroFamilia;

@@ -2,7 +2,7 @@ package entidades;
 
 public class Receta {
 
-	//private String id;
+	private Long id;
 	private String nombre, descripcion;
 	
 	public Receta(String nombre, String descripcion) {
@@ -23,6 +23,14 @@ public class Receta {
 	}
 	public void setDescripcion(String descripcion) {
 	        this.descripcion = descripcion;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }
 

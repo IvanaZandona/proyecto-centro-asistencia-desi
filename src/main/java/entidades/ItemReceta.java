@@ -2,7 +2,7 @@ package entidades;
 
 public class ItemReceta {
 
-	//private String id;
+	private Long id;
 	private Integer cantidad, calorias;
 	
 	public ItemReceta(Integer cantidad, Integer calorias) {
@@ -25,6 +25,14 @@ public class ItemReceta {
     public void setCalorias(Integer calorias) {
         this.calorias = calorias;
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	
 }

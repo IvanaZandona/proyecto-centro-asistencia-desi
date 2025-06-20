@@ -2,7 +2,7 @@ package entidades;
 
 public class Ingrediente {
 
-	//private String id;
+    private Long id;
 	private String nombre;
 	private Integer calorias;
 	
@@ -23,5 +23,13 @@ public class Ingrediente {
     public void setCalorias(Integer calorias) {
         this.calorias = calorias;
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 	
 }

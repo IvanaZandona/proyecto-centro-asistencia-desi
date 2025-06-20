@@ -7,7 +7,7 @@ public class Persona {
 	private String nombre, apellido, domicilio, ocupacion;
 	private Integer dni;
 	private LocalDate fechaNacimiento;
-	//private String id;
+	private Long id;
 	
 	public Persona(String nombre, String apellido, String domicilio, 
 					String ocupacion, Integer dni, LocalDate fechaNacimiento) {
@@ -34,7 +34,7 @@ public class Persona {
     public String getOcupacion() {
         return ocupacion;
     }
-    public String getDni() {
+    public Integer getDni() {
         return dni;
     }
     public LocalDate getFechaNacimiento() {
@@ -60,4 +60,12 @@ public class Persona {
     public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 }
