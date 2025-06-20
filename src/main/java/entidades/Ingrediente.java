@@ -19,6 +19,9 @@ public class Ingrediente {
 		this.calorias = calorias;
 	}
 	
+	public Ingrediente() {}
+	
+	
 	public String getNombre() {
         return nombre;
     }
