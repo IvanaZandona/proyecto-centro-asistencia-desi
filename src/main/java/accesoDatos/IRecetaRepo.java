@@ -14,9 +14,10 @@ public interface IRecetaRepo extends JpaRepository<Receta, Long> {
 	
 	List<Receta> findByNombre(String nombre);
 	
-	Receta findDirstbyId(Long id);
+	Receta findFirstbyId(Long id);
 	
 	
 	}
 
 
+ 
