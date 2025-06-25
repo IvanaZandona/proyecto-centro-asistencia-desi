@@ -23,7 +23,7 @@ public class EntregaAsistencia {
 		return cantidadRaciones;
 	}
 	public void setFecha(LocalDate fecha) {
-        this.fechaRegistro = fechaRegistro;
+        this.fecha = fecha;
     }
 	public void setCantidadRaciones(Integer cantidadRaciones) {
 		this.cantidadRaciones = cantidadRaciones;

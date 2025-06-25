@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title><span th:text="#{familia.buscar.titulo}"></span></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+
+<body>
+    <h1>Listado de Familias</h1>
+
+    <a th:href="@{/familias/nueva}">Agregar nueva familia</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nro Familia</th>
+                <th>Nombre</th>
+                <th>Fecha de Registro</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="familia : ${familias}">
+                <td th:text="${familia.nroFamilia}"></td>
+                <td th:text="${familia.nombre}"></td>
+                <td th:text="${familia.fechaRegistro}"></td>
+                <td>
+                    <a th:href="@{/familias/editar/{id}(id=${familia.nroFamilia})}">Editar</a> |
+                    <a th:href="@{/familias/eliminar/{id}(id=${familia.nroFamilia})}">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
