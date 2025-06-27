@@ -30,5 +30,8 @@ public interface FamiliaService {
 
 
 	void deleteByNroFamilia(Integer nroFamilia); //REVISARRRRRRRRRR
+
+
+	List<Familia> findAll(); //REVISAR
     
 }

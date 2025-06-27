@@ -21,5 +21,7 @@ public interface IFamiliaRepo extends JpaRepository<Familia, Integer> {
     // Combinar búsqueda por nombre y fecha
     @Query("SELECT f FROM Familia f WHERE f.nombre LIKE %:nombre% AND f.fechaRegistro = :fechaRegistro")
     List<Familia> buscarPorNombreYFecha(String nombre, java.time.LocalDate fechaRegistro);
+
+	List<Familia> findByNombreContaining(String nombre);
     
 }

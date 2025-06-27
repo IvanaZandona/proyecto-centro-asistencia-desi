@@ -2,16 +2,15 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Editar Familia</title>
+    <title>Alta de Familia</title>
     <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <body>
-    <h1>Editar Familia</h1>
-    <form th:action="@{/familiasMenu/editar}" th:object="${formBean}" method="post">
-        <input type="hidden" th:field="*{nroFamilia}" />
+    <h1>Dar de Alta una Familia</h1>
+    <form th:action="@{/familiasMenu/alta}" th:object="${formBean}" method="post">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" th:field="*{nombre}" required />
-        <button type="submit">Actualizar</button>
+        <button type="submit">Guardar</button>
     </form>
 </body>
 </html>

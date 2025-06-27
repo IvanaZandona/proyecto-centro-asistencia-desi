@@ -39,20 +39,23 @@ public class FamiliaServiceImpl implements FamiliaService {
 
 	@Override
 	public List<Familia> filter(String nombre) {
-		// TODO Auto-generated method stub
-		return null;
+		//return familiaRepo.buscarPorNombre(nombre);
+		return familiaRepo.findByNombreContaining(nombre);
 	}
 
 	@Override
-	public Familia getByNroFamilia(Integer integer) {
-		// TODO Auto-generated method stub
-		return null;
+	public Familia getByNroFamilia(Integer nroFamilia) {
+		 return familiaRepo.findById(nroFamilia).orElse(null); 
 	}
 
 	@Override
 	public void deleteByNroFamilia(Integer nroFamilia) {
-		// TODO Auto-generated method stub
-		
+		familiaRepo.deleteById(nroFamilia);
+	}
+
+	@Override
+	public List<Familia> findAll() {
+		return familiaRepo.findAll();
 	}
 	
 }

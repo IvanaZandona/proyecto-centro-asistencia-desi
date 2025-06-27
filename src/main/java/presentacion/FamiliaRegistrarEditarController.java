@@ -1,5 +1,7 @@
 package presentacion;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,58 +20,85 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 import entidades.Familia;
+import entidades.Asistido;
 import excepciones.Excepcion;
 import servicios.FamiliaService;
 
 @Controller
-@RequestMapping("/familiaEditar")
+@RequestMapping("/familiasMenu")
 public class FamiliaRegistrarEditarController {
 
 	@Autowired
 	private FamiliaService familiaService;
 
-	@GetMapping({"", "/{nroFamilia}"})
-	public String preparaForm(Model modelo, @PathVariable(name = "nroFamilia", required = false) Optional<Integer> nroFamilia) {
-		if (nroFamilia.isPresent()) {
-			Familia f = familiaService.getByNroFamilia(nroFamilia.get());
-			modelo.addAttribute("formBean", new FamiliaForm(f));
-		} else {
-			modelo.addAttribute("formBean", new FamiliaForm());
-		}
-		return "familiaEditar";
+	@GetMapping
+	public String mostrarMenu(Model modelo) {
+	    return "familiasMenu"; // Nombre del archivo HTML sin la extensión
+	}
+	
+	@GetMapping("/alta")
+    public String preparaForm(Model modelo) {
+        modelo.addAttribute("formBean", new FamiliaForm());
+        return "familiaAlta"; // Nombre de la vista para el formulario de alta
+    }
+	
+	@GetMapping("/listado")
+	public String listarFamilias(Model modelo) {
+	    List<Familia> familias = familiaService.findAll();
+	    modelo.addAttribute("familias", familias);
+	    return "listadoFamilias"; // Nombre de la vista para listar familias
 	}
 
+	@GetMapping("/editar/{nroFamilia}")
+	public String preparaFormEdicion(Model modelo, @PathVariable("id") Integer id) {
+	    Familia familia = familiaService.getByNroFamilia(id);
+	    modelo.addAttribute("formBean", new FamiliaForm(familia));
+	    return "familiaEditar"; // Nombre de la vista para editar
+	}
+	
 	@GetMapping("/delete/{nroFamilia}")
-	public String delete(@PathVariable("nroFamilia") Integer nroFamilia) {
-		familiaService.deleteByNroFamilia(nroFamilia);
-		return "redirect:/familiaBuscar";
-	}
-
-	@PostMapping
-	public String submit(@ModelAttribute("formBean") @Valid FamiliaForm formBean, BindingResult result, 
-						 ModelMap modelo, @RequestParam String action) {
-		if (action.equals("actionAceptar")) {
-			if (result.hasErrors()) {
-				modelo.addAttribute("formBean", formBean);
-				return "familiaEditar";
-			} else {
-				try {
-					familiaService.save(formBean.toPojo());
-					return "redirect:/familiaBuscar";
-				} catch (Excepcion e) {
-					if (e.getAtributo() == null) {
-						result.addError(new ObjectError("globalError", e.getMessage()));
-					} else {
-						result.addError(new FieldError("formBean", e.getAtributo(), e.getMessage()));
-					}
-					modelo.addAttribute("formBean", formBean);
-					return "familiaEditar";
-				}
-			}
-		} else if (action.equals("actionCancelar")) {
-			return "redirect:/familiaBuscar";
-		}
-		return "redirect:/";
-	}
+    public String delete(@PathVariable("nroFamilia") Integer nroFamilia) {
+        familiaService.deleteByNroFamilia(nroFamilia);
+        return "redirect:/familiasMenu/listadoFamilias"; // Redirigir a la lista de familias
+    }
+	
+	@PostMapping("/alta")
+    public String submitAlta(@ModelAttribute("formBean") @Valid FamiliaForm formBean, BindingResult result, 
+                             ModelMap modelo) {
+        if (result.hasErrors()) {
+            modelo.addAttribute("formBean", formBean);
+            return "familiaAlta"; // Volver al formulario si hay errores
+        } else {
+            try {
+                Familia familia = formBean.toPojo();
+                familia.setFechaRegistro(LocalDate.now()); // Establecer la fecha de alta
+                familiaService.save(familia);
+                return "redirect:/familia/listado"; // Redirigir a la lista de familias
+            } catch (Excepcion e) {
+                result.addError(new ObjectError("globalError", e.getMessage()));
+                modelo.addAttribute("formBean", formBean);
+                return "familiaAlta"; // Volver al formulario si hay un error
+            }
+        }
+    }
+	
+	@PostMapping("/editar")
+    public String submitEdicion(@ModelAttribute("formBean") @Valid FamiliaForm formBean, BindingResult result, 
+                                 ModelMap modelo) {
+        if (result.hasErrors()) {
+            modelo.addAttribute("formBean", formBean);
+            return "familiaEditar"; // Volver al formulario si hay errores
+        } else {
+            try {
+                familiaService.save(formBean.toPojo());
+                return "redirect:/familia/listado"; // Redirigir a la lista de familias
+            } catch (Excepcion e) {
+                result.addError(new ObjectError("globalError", e.getMessage()));
+                modelo.addAttribute("formBean", formBean);
+                return "familiaEditar"; // Volver al formulario si hay un error
+            }
+        }
+    }
+	
 	
 }

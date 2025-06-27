@@ -1,13 +1,19 @@
 package entidades;
 import java.time.LocalDate;
 
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "persona")
 public class Persona {
 
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	private String nombre, apellido, domicilio, ocupacion;
 	private Integer dni;
 	private LocalDate fechaNacimiento;
-	private Long id;
 	
 	public Persona(String nombre, String apellido, String domicilio, 
 					String ocupacion, Integer dni, LocalDate fechaNacimiento) {

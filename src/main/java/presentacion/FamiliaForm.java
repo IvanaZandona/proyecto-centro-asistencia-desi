@@ -1,10 +1,13 @@
 package presentacion;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import entidades.Familia;
+import entidades.Asistido;
 
 public class FamiliaForm {
 
@@ -16,6 +19,8 @@ public class FamiliaForm {
 
 	@NotNull
 	private LocalDate fechaRegistro;
+	
+    private List<Asistido> asistidos = new ArrayList<>(); // Lista de integrantes
 
 	public FamiliaForm() {
 		super();
@@ -25,10 +30,16 @@ public class FamiliaForm {
 		this.nroFamilia = f.getNroFamilia();
 		this.nombre = f.getNombre();
 		this.fechaRegistro = f.getFechaRegistro();
+		this.asistidos = f.getAsistidos();
 	}
 
 	public Familia toPojo() {
-		return new Familia(nroFamilia, nombre, fechaRegistro);
+		Familia familia = new Familia();
+        familia.setNroFamilia(nroFamilia);
+        familia.setNombre(nombre);
+        familia.setFechaRegistro(fechaRegistro);
+        familia.setAsistidos(asistidos); 
+        return familia;
 	}
 
 	public Integer getNroFamilia() {
