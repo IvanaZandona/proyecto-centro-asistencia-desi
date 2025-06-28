@@ -1,20 +1,19 @@
-package accesoDatos;
+package com.example.demo.accesoDatos;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.entidades.Receta;
+
 import java.util.List;
-
-
-import entidades.Receta;
 
 @Repository
 public interface IRecetaRepo extends JpaRepository<Receta, Long> {
 	
 	
-	List<Receta> findByNombre(String nombre);
+	//List<Receta> findByNombre(String nombre);
 	
-	Receta findFirstbyId(Long id);
+	//Receta findFirstById(Long id);
 	
 	
 	}

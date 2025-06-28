@@ -1,26 +1,37 @@
-package entidades;
+package com.example.demo.entidades;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "ingrediente")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Ingrediente {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "idingrediente")
     private Long id;
-	private String nombre;
-	private Integer calorias, cantidad;
+	
+	@Column(name = "nombre")
+    private String nombre;
+
+    @Column(name = "calorias")
+    private Integer calorias;
+	
+    @Column(name = "cantidad")
+	private Integer cantidad;
+	
+	public Ingrediente() {
+	    // Constructor vacío requerido por JPA
+	}
 	
 	public Ingrediente(String nombre, Integer calorias) {
 		this.nombre = nombre;
 		this.calorias = calorias;
 	}
-	
-	public Ingrediente() {}
-	
 	
 	public String getNombre() {
         return nombre;

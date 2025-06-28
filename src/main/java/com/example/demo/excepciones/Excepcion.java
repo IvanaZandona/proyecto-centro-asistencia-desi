@@ -1,4 +1,4 @@
-package excepciones;
+package com.example.demo.excepciones;
 
 public class Excepcion extends Exception {
 

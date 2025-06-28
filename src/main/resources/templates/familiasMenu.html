@@ -6,20 +6,13 @@
     <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <body>
-    <div class="starter-template">
-        <h1>Gestión de Familias</h1>
-        <h2>Seleccione una opción:</h2>
-    </div>
-    <div class="menu">
-        <ul>
-            <li><a th:href="@{/familiasMenu/alta}">Dar de Alta una Familia</a></li>
-            <li><a th:href="@{/familiasMenu/listado}">Listar Familias</a></li>
-            <li><a th:href="@{/familiasMenu/editar/{id}(id=${familia.nroFamilia})}">Editar Familia</a></li>
-            <li><a th:href="@{/familiasMenu/delete/{nroFamilia}(nroFamilia=${familia.nroFamilia})}">Dar de Baja una Familia</a></li>
-        </ul>
-    </div>
-    <div class="footer">
-        <a th:href="@{/index}">← Volver al Menú Principal</a>
-    </div>
+	<h1>Gestión de Familias</h1>
+	    <ul>
+	        <li><a th:href="@{/familiasMenu/alta}">Dar de Alta una Familia</a></li>
+	        <li><a th:href="@{/familiasBuscar/listado}">Listar Familias</a></li>
+	    </ul>
+	    <div class="footer">
+	        <a th:href="@{/}">← Volver al Menú Principal</a>
+	    </div>
 </body>
 </html>

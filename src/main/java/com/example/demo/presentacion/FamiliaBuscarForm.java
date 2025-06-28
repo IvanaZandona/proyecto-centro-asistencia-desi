@@ -1,4 +1,4 @@
-package presentacion;
+package com.example.demo.presentacion;
 
 public class FamiliaBuscarForm {
 

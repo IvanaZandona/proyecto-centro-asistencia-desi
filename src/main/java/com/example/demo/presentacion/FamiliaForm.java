@@ -1,13 +1,14 @@
-package presentacion;
+package com.example.demo.presentacion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.entidades.Asistido;
+import com.example.demo.entidades.Familia;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import entidades.Familia;
-import entidades.Asistido;
 
 public class FamiliaForm {
 

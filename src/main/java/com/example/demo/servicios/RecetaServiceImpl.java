@@ -1,14 +1,14 @@
-package servicios;
+package com.example.demo.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import accesoDatos.IRecetaRepo;
+import com.example.demo.accesoDatos.IRecetaRepo;
 
 @Service
 public class RecetaServiceImpl implements RecetaService{
 	
-	private final IRecetaRepo recetaRepo;
+	/*private final IRecetaRepo recetaRepo;
 	
 	@Autowired
 	public RecetaServiceImpl(IRecetaRepo recetaRepo) {
@@ -18,6 +18,6 @@ public class RecetaServiceImpl implements RecetaService{
 	public String crearReceta() {
 		return null;
 		
-	}
+	}*/
 }
               

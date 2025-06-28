@@ -1,4 +1,4 @@
-package presentacion;
+package com.example.demo.presentacion;
 
 import java.util.List;
 
@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import entidades.Familia;
+import com.example.demo.entidades.Familia;
+import com.example.demo.servicios.FamiliaService;
+
 import jakarta.validation.Valid;
-import servicios.FamiliaService;
 
 @Controller
 @RequestMapping("/familiasBuscar")
@@ -25,36 +27,46 @@ public class FamiliaBuscarController {
 	@Autowired
 	private FamiliaService familiaService;
 	
-	@GetMapping
+	@GetMapping("/")
+	public String mostrarIndex() {
+	    return "index"; // Renderiza src/main/resources/templates/index.html
+	}
+
+	@RequestMapping(method = RequestMethod.GET)
 	public String preparaForm(Model modelo) {
 		FamiliaBuscarForm form = new FamiliaBuscarForm();
 		modelo.addAttribute("formBean", form);
-		modelo.addAttribute("familias", familiaService.getAll());
-		return "familiasBuscar"; //nombre del html
+		modelo.addAttribute("familias", familiaService.getAll()); // muestra todo inicialmente
+		return "familiasBuscar";
 	}
 	
 	//@GetMapping("/familias")
-	public String listar(Model modelo) {
+	/*public String listar(Model modelo) {
 	    modelo.addAttribute("familias", familiaService.getAll());
 	    return "familiasBuscar"; //tu HTML
-	}
+	}*/
 
-	@PostMapping
-	public String submit(@ModelAttribute("formBean") @Valid FamiliaBuscarForm formBean, BindingResult result, 
+	@RequestMapping(method = RequestMethod.POST)
+	public String submit(@ModelAttribute("formBean") @Valid FamiliaBuscarForm formBean, BindingResult result,
 						 ModelMap modelo, @RequestParam String action) {
+
 		if (action.equals("actionBuscar")) {
 			try {
 				List<Familia> familias = familiaService.filter(formBean.getNombre());
-				modelo.addAttribute("resultados", familias);
+				modelo.addAttribute("familias", familias); // reemplaza resultados por familias
 			} catch (Exception e) {
 				result.addError(new ObjectError("globalError", e.getMessage()));
 			}
-			return "familiaBuscar";
-		} else if (action.equals("actionRegistrar")) {
-			return "redirect:/familiaEditar";
-		} else if (action.equals("actionCancelar")) {
+			modelo.addAttribute("formBean", formBean);
+			return "familiasBuscar";
+		}
+		else if (action.equals("actionRegistrar")) {
+			return "redirect:/familiaEditar"; // aún no creado
+		}
+		else if (action.equals("actionCancelar")) {
 			return "redirect:/";
 		}
+		
 		return "redirect:/";
 	}
 	

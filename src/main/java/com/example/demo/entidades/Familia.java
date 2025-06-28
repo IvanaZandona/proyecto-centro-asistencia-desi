@@ -1,4 +1,4 @@
-package entidades;
+package com.example.demo.entidades;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,6 +22,7 @@ public class Familia {
 	
 	/*@OneToMany(mappedBy = "familia", cascade = CascadeType.ALL)
     private List<Asistido> asistidos; // Relación con Asistido*/
+	
 	@OneToMany(mappedBy = "familia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Asistido> asistidos = new ArrayList<>(); // Relación con Asistido
 	

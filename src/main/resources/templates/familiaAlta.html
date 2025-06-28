@@ -6,11 +6,12 @@
     <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <body>
-    <h1>Dar de Alta una Familia</h1>
-    <form th:action="@{/familiasMenu/alta}" th:object="${formBean}" method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" th:field="*{nombre}" required />
-        <button type="submit">Guardar</button>
-    </form>
+	<h1>Dar de Alta una Familia</h1>
+	    <form th:action="@{/familiasMenu/alta}" th:object="${formBean}" method="post">
+	        <label for="nombre">Nombre:</label>
+	        <input type="text" id="nombre" th:field="*{nombre}" required />
+	        <button type="submit">Guardar</button>
+	    </form>
+	    <a th:href="@{/familiasMenu}">← Volver al Menú</a>
 </body>
 </html>

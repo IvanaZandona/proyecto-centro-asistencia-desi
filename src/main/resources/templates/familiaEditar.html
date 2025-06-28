@@ -6,12 +6,13 @@
     <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <body>
-    <h1>Editar Familia</h1>
-    <form th:action="@{/familiasMenu/editar}" th:object="${formBean}" method="post">
-        <input type="hidden" th:field="*{nroFamilia}" />
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" th:field="*{nombre}" required />
-        <button type="submit">Actualizar</button>
-    </form>
+	<h1>Editar Familia</h1>
+	   <form th:action="@{/familiasMenu/editar}" th:object="${formBean}" method="post">
+	       <input type="hidden" th:field="*{nroFamilia}" />
+	       <label for="nombre">Nombre:</label>
+	       <input type="text" id="nombre" th:field="*{nombre}" required />
+	       <button type="submit">Actualizar</button>
+	   </form>
+	   <a th:href="@{/familiasMenu/listado}">← Volver al Listado</a>
 </body>
 </html>

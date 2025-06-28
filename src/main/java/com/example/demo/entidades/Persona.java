@@ -1,20 +1,39 @@
-package entidades;
+package com.example.demo.entidades;
 import java.time.LocalDate;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "persona")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Persona {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idpersona")
 	private Long id;
+	@Column(name = "nombre")
+	private String nombre;
 	
-	private String nombre, apellido, domicilio, ocupacion;
+	@Column(name = "apellido")
+	private String apellido;
+	
+	@Column(name = "domicilio")
+	private String domicilio;
+	
+    @Column(name = "ocupacion")
+	private String ocupacion;
+	
+    @Column(name = "dni", unique = true)
 	private Integer dni;
+	
+    @Column(name = "fecha_nacimiento")
 	private LocalDate fechaNacimiento;
 	
+	public Persona() {
+	    // Constructor vacío requerido por JPA
+	}
+
 	public Persona(String nombre, String apellido, String domicilio, 
 					String ocupacion, Integer dni, LocalDate fechaNacimiento) {
 	    this.nombre = nombre;
