@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Alta de Receta</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<body>
+	<h1>Dar de Alta una Receta</h1>
+	    <form th:action="@{/recetasMenu/alta}" th:object="${formBean}" method="post">
+	        <label for="nombre">Nombre:</label>
+	        <input type="text" id="nombre" th:field="*{nombre}" required />
+			<label for="descripcion"> Descripcion</label>
+	        <button type="submit">Guardar</button>
+	    </form>
+	    <a th:href="@{/familiasMenu}">← Volver al Menú</a>
+</body>
+</html>

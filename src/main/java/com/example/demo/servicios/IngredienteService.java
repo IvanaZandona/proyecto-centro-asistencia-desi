@@ -8,7 +8,8 @@ public interface IngredienteService {
 
 	List<Ingrediente> getAll();
 
-	void save(Ingrediente ingrediente) throws Exception;
+
+	void save(Ingrediente ingrediente, Long idCondimento, Long idProducto) throws Exception;
 
 	
 }

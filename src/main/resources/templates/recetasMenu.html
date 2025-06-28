@@ -1,10 +1,18 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		
-	</head>
-	<body>
-		
-	</body>
-	
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Recetas</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<body>
+	<h1>Gestión de Familias</h1>
+	    <ul>
+	        <li><a th:href="@{/recetasMenu/alta}">Dar de Alta una Familia</a></li>
+	        <li><a th:href="@{/recetasBuscar/listado}">Listar Familias</a></li>
+	    </ul>
+	    <div class="footer">
+	        <a th:href="@{/}">← Volver al Menú Principal</a>
+	    </div>
+</body>
 </html>

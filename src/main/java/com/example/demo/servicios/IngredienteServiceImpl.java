@@ -32,14 +32,25 @@ public class IngredienteServiceImpl implements IngredienteService {
 	}
 	
 	@Override 
-	public void save(Ingrediente ingrediente) throws Exception{
+	public void save(Ingrediente ingrediente, Long idCondimento, Long idProducto) throws Exception{
 		if(ingrediente.getNombre() == null || ingrediente.getNombre().isBlank()) {
 			throw new Exception ("Para crear un ingrediente, todos los datos deben estar completos");
+		}
+		
+		if((idCondimento != null && idProducto != null) || (idCondimento == null && idProducto == null)) {
+			throw new Exception("El ingrediente debe tener asociado un condimento o un producto, no ambos ni ninguno");
 		}
 		
 		ingrediente.setNombre(ingrediente.getNombre());
 		ingrediente.setCalorias(ingrediente.getCalorias());
 		ingrediente.setCantidad(ingrediente.getCantidad());
+		
+		if(idCondimento != null) {
+			Condimento condimento =  condimentoRepo.findById(idCondimento)
+					.orElseThrow(() -> new Exception("El condimento no existe"));
+			ingrediente.setCondimento(condimento);
+		}
+		
 		
 		
 		ingredienteRepo.save(ingrediente);
