@@ -7,4 +7,6 @@ import com.example.demo.entidades.Producto;
 @Repository
 public interface IProductoRepo extends JpaRepository<Producto, Long>{
 
+	
+	
 }
