@@ -51,14 +51,16 @@ public class IngredienteServiceImpl implements IngredienteService {
 			ingrediente.setCondimento(condimento);
 		}
 		
-		
-		
+		if(idProducto != null) {
+			Producto producto =  productoRepo.findById(idProducto)
+					.orElseThrow(() -> new Exception("El producto no existe"));
+			producto.setProducto(producto);
+		}
 		ingredienteRepo.save(ingrediente);
 		
-		
 	}
-
-
+	
+	
 	public List<Condimento> listarCondimentos(){
 		return condimentoRepo.findAll();
 	}
