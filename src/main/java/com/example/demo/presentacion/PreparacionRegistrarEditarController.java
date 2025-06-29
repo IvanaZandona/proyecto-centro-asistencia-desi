@@ -37,7 +37,7 @@ public class PreparacionRegistrarEditarController {
     public String mostrarMenu(Model modelo) {
         return "preparacionesMenu";
     }
-	
+		
 	@RequestMapping(value = "/alta", method = RequestMethod.GET)
 	public String preparaFormAlta(Model modelo) {
 		modelo.addAttribute("formBean", new PreparacionForm());
@@ -47,6 +47,7 @@ public class PreparacionRegistrarEditarController {
 	@RequestMapping(value = "/listado", method = RequestMethod.GET)
     public String listarPreparaciones(Model modelo) {
         List<Preparacion> preparaciones = preparacionService.findAll();
+        modelo.addAttribute("formBean", new PreparacionBuscarForm());
         modelo.addAttribute("preparaciones", preparaciones);
         return "listadoPreparaciones";
     }

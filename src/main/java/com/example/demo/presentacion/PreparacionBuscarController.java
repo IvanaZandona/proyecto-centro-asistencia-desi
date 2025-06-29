@@ -36,11 +36,15 @@ public class PreparacionBuscarController {
 	public String preparacionForm(Model modelo) {
 		PreparacionBuscarForm form = new PreparacionBuscarForm();
 		modelo.addAttribute("formBean", form);
-		modelo.addAttribute("preparacion", preparacionService.getAll()); // muestra todo inicialmente
+		//modelo.addAttribute("preparacion", preparacionService.getAll()); // muestra todo inicialmente
 		return "preparacionesBuscar";
 	}
 	
-
+	@ModelAttribute("allPreparaciones")
+    public List<Preparacion> getAllPreparaciones() {
+        return this.preparacionService.getAll();
+    }
+	
 	@RequestMapping(method = RequestMethod.POST)
 	public String submit(@ModelAttribute("formBean") @Valid PreparacionBuscarForm formBean, BindingResult result,
 						 ModelMap modelo, @RequestParam String action) {

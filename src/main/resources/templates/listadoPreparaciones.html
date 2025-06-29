@@ -11,7 +11,7 @@
 	        <thead>
 	            <tr>
 					<th>Id</th>
-					<th>Receta</th>
+					<!--<th>Receta</th>-->
 					<th>Cantidad de Raciones</th>
 					<th>Stock de Raciones</th>
 					<th>Fecha Coccion</th>
@@ -20,14 +20,14 @@
 	        </thead>
 	        <tbody>
 	            <tr th:each="preparacion : ${preparaciones}">
-					<td th:text="${preparacion.idpreparacion}"></td>
-					<td th:text="${preparacion.receta_idreceta}"></td>
-					<td th:text="${preparacion.total_raciones_preparadas}"></td>
-					<td th:text="${preparacion.stock_raciones_restantes}"></td>
-					<td th:text="${preparacion.fecha_coccioro}"></td>
+					<td th:text="${preparacion.id}"></td>
+					<!--<td th:text="${preparacion.receta_idreceta}"></td>-->
+					<td th:text="${preparacion.totalRacionesPreparadas}"></td>
+					<td th:text="${preparacion.stockRacionesRestantes}"></td>
+					<td th:text="${preparacion.fechaCoccion}"></td>
 	                <td>
-						<a th:href="@{/preparaciones/editar/{id}(id=${preparacion.idpreparacion})}">Editar</a> |
-						<a th:href="@{/preparaciones/eliminar/{id}(id=${preparacion.idpreparacion})}">Eliminar</a>
+						<a th:href="@{/preparacionesMenu/editar/{id}(id=${preparacion.id})}">Editar</a> |
+						<a th:href="@{/preparacionesMenu/eliminar/{id}(id=${preparacion.id})}">Eliminar</a>
 	                </td>
 	            </tr>
 	        </tbody>
