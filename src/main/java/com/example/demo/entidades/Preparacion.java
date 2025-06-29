@@ -46,7 +46,7 @@ public class Preparacion {
         return fechaCoccion;
     }
 
-    public void setTotalRacionespreparadas(Integer totalRacionesPreparadas) {
+    public void setTotalRacionesPreparadas(Integer totalRacionesPreparadas) {
         this.totalRacionesPreparadas = totalRacionesPreparadas;
     }
 

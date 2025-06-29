@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Preparacion</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<body>
+	<h1>Editar Preparacion</h1>
+	   <form th:action="@{/preparacionesMenu/editar}" th:object="${formBean}" method="post">
+	       <input type="hidden" th:field="*{Id}" />
+	       <label for="Id">ID:</label>
+	       <input type="text" id="Id" th:field="*{Id}" required />
+	       <button type="submit">Actualizar</button>
+	   </form>
+	   <a th:href="@{/preparacionesMenu/listado}">← Volver al Listado</a>
+</body>
+</html>

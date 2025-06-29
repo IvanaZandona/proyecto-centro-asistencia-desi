@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Buscar Preparaciones</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+
+<body>
+	<h1>Buscar Preparaciones</h1>
+
+	<form th:action="@{/preparacionesBuscar}" th:object="${formBean}" method="post">
+	    <label for="Id">ID:</label>
+	    <input type="text" th:field="*{id}" />
+	    <br/>
+	    <button type="submit" name="action" value="actionBuscar">Buscar</button>
+	    <button type="submit" name="action" value="actionRegistrar">Registrar nueva preparacion</button>
+	    <button type="submit" name="action" value="actionCancelar">Cancelar</button>
+	</form>
+
+	<h2>Listado de Preparaciones</h2>
+	<table border="1">
+	    <thead>
+	        <tr>
+	            <th>Id</th>
+	            <th>Receta</th>
+	            <th>Cantidad de Raciones</th>
+	            <th>Stock de Raciones</th>
+				<th>Fecha Coccion</th>
+				<th>Acciones</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr th:each="preparacion : ${preparaciones}">
+	            <td th:text="${preparacion.idpreparacion}"></td>
+	            <td th:text="${preparacion.receta_idreceta}"></td>
+	            <td th:text="${preparacion.total_raciones_preparadas}"></td>
+				<td th:text="${preparacion.stock_raciones_restantes}"></td>
+				<td th:text="${preparacion.fecha_coccion}"></td>
+	            <td>
+	                <a th:href="@{/preparaciones/editar/{id}(id=${preparacion.idpreparacion})}">Editar</a> |
+	                <a th:href="@{/preparaciones/eliminar/{id}(id=${preparacion.idpreparacion})}">Eliminar</a>
+	            </td>
+	        </tr>
+	    </tbody>
+	</table>
+	<a th:href="@{/preparacionesMenu}">← Volver al Menú</
+</body>
+</html>

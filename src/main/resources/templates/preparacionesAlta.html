@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Alta de Preparacion</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<body>
+	<h1>Dar de Alta una Preparacion</h1>
+	    <form th:action="@{/preparacionesMenu/alta}" th:object="${formBean}" method="post">
+	        <label for="Id">ID:</label>
+	        <input type="text" id="Id" th:field="*{Id}" required />
+	        <button type="submit">Guardar</button>
+	    </form>
+	    <a th:href="@{/preparacionesMenu}">← Volver al Menú</a>
+</body>
+</html>
