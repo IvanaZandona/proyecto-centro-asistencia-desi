@@ -8,11 +8,11 @@ import jakarta.persistence.*;
 public class Preparacion {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idpreparacion")
+    @GeneratedValue(strategy = GenerationType.TABLE)
+	@Column(name = "idpreparacion")
 	private Long id;
 	
-	@ManyToOne
+	@ManyToOne(optional = false)
     @JoinColumn(name = "receta_idreceta")
     private Receta receta;
 
@@ -46,7 +46,7 @@ public class Preparacion {
         return fechaCoccion;
     }
 
-    public void setTotalRacionespreparadas(Integer totalRacionesPreparadas) {
+    public void setTotalRacionesPreparadas(Integer totalRacionesPreparadas) {
         this.totalRacionesPreparadas = totalRacionesPreparadas;
     }
 

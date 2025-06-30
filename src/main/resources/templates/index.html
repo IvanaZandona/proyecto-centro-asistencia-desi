@@ -8,7 +8,7 @@
 
 <body>
    <div class="starter-template">
-        <h1>Ejemplo Spring Boot Web Thymeleaf </h1>
+        <h1>Sistema de Gestión de Centros de Asistencia </h1>
         <h2>
             <span th:text="'Bienvenido'"></span>
         </h2>
@@ -20,6 +20,16 @@
 		<a th:href="@{/recetasMenu}">Gestion de Recetas</a>
         
     </div>
+	
+	<div class="menu">
+	    <a th:href="@{/entregaAsistenciaMenu}">Gestionar entrega de raciones</a>
+	    
+	</div>
+
+	<div class="menu">
+	    <a th:href="@{/preparacionesMenu}">Gestión de Preparaciones</a>
+	    
+	</div>
 
 </body>
 </html>

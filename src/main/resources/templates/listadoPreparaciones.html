@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Listado de Preparaciones</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<body>
+	<h1 th:text="#{preparacion.listar.titulo}" />
+	    <table border="1">
+	        <thead>
+	            <tr>
+					<th>Id</th>
+					<th>Receta</th>
+					<th>Cantidad de Raciones</th>
+					<th>Stock de Raciones</th>
+					<th>Fecha Coccion</th>
+	                <th>Acciones</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr th:each="preparacion : ${preparaciones}">
+					<td th:text="${preparacion.id}"></td>
+					<td th:text="${preparacion.receta != null ? preparacion.receta.nombre : 'Sin receta'}"></td>
+					<td th:text="${preparacion.totalRacionesPreparadas}"></td>
+					<td th:text="${preparacion.stockRacionesRestantes}"></td>
+					<td th:text="${preparacion.fechaCoccion}"></td>
+	                <td>
+						<a th:href="@{/preparacionesMenu/editar/{id}(id=${preparacion.id})}">Editar</a> |
+						<a th:href="@{/preparacionesMenu/eliminar/{id}(id=${preparacion.id})}">Eliminar</a>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+	    <a th:href="@{/preparacionesMenu}">← Volver al Menú</a>
+</body>
+</html>

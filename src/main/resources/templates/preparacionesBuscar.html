@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Buscar Preparaciones</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+
+<body>
+	<h1 th:text="#{preparacion.buscar.titulo}" />
+
+	<form th:action="@{/preparacionesBuscar}" th:object="${formBean}" method="post">
+		<table border="1" style="align-self: center;">
+		<tr>
+	    <td><label for="id">ID:</label></td>
+	    <td><input type="text" th:field="*{id}" /></td>
+		</tr>
+		<tr>
+		<td><label for="recetaSeleccionada">Receta:</label></td>
+		<td>
+			<select th:field="*{recetaSeleccionada}">
+				<option th:value="null" text="Seleccione una opción"></option>
+				<option th:each="r : ${allRecetas}" 
+					th:value="${r.id}" 
+					th:text="${r.nombre}"></option>
+			</select>
+		</td>
+		</tr>
+		</table>
+	    <br/>
+		<table class="botones">
+		<tr>
+	    	<td><button type="submit" name="action" value="actionBuscar">Buscar</button></td>
+	    	<td><button type="submit" name="action" value="actionRegistrar">Registrar nueva preparacion</button></td>
+	    	<td><button type="submit" name="action" value="actionCancelar">Cancelar</button></td>
+		</tr>
+		</table>
+	</form>
+
+	<h2>Listado de Preparaciones</h2>
+	<table border="1">
+	    <thead>
+	        <tr>
+	            <th>Id</th>
+	            <th>Receta</th>
+	            <th>Cantidad de Raciones</th>
+	            <th>Stock de Raciones</th>
+				<th>Fecha Coccion</th>
+				<th>Acciones</th>
+	        </tr>
+	    </thead>
+	    <tbody>
+	        <tr th:each="preparacion : ${preparaciones}">
+	            <td th:text="${preparacion.id}"></td>
+				<td th:text="${preparacion.receta != null ? preparacion.receta.nombre : 'Sin receta'}"></td>
+				<td th:text="${preparacion.totalRacionesPreparadas}"></td>
+				<td th:text="${preparacion.stockRacionesRestantes}"></td>
+				<td th:text="${preparacion.fechaCoccion}"></td>
+	            <td>
+	                <a th:href="@{/preparaciones/editar/{id}(id=${preparacion.id})}">Editar</a> |
+	                <a th:href="@{/preparaciones/eliminar/{id}(id=${preparacion.id})}">Eliminar</a>
+	            </td>
+	        </tr>
+	    </tbody>
+	</table>
+	<a th:href="@{/preparacionesMenu}">← Volver al Menú</
+</body>
+</html>
