@@ -7,10 +7,26 @@
 </head>
 <body>
 	<h1>Dar de Alta una Receta</h1>
-	    <form th:action="@{/recetasMenu/alta}" th:object="${formBean}" method="post">
+	    <form th:action="@{/recetasMenu/alta}" th:object="${receta}" method="post">
 	        <label for="nombre">Nombre:</label>
 	        <input type="text" id="nombre" th:field="*{nombre}" required />
 			<label for="descripcion"> Descripcion</label>
+			<input type="text" id="descripcion" th:field="*{descripcion}" required />
+			
+			<h3>Ingredientes</h3>
+			
+			<div th:each="item, iterStat: *{items}">
+				<label> Ingredientes </label>
+				
+				
+				
+				
+				
+			</div>			
+			
+			
+			
+			
 	        <button type="submit">Guardar</button>
 	    </form>
 	    <a th:href="@{/familiasMenu}">← Volver al Menú</a>

@@ -1,5 +1,56 @@
 package com.example.demo.presentacion;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.example.demo.entidades.Receta;
+import com.example.demo.servicios.RecetaService;
+import com.example.demo.servicios.IngredienteService;
+
+
+import org.springframework.ui.Model;
+
+
+@Controller //iNDICO QUE ES UN CONTROLADOR
+@RequestMapping("/recetasMenu") //Mapeo la ruta base para las opercaiones de mi entidad
 public class RecetaController {
+	
+	@Autowired
+	private RecetaService recetaService;
+	
+	@Autowired
+	private IngredienteService ingredienteService;
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public String mostrarMenu(Model modelo) {
+		return "recetasMenu";
+	}
+	
+	@RequestMapping(value ="/alta",method = RequestMethod.GET) //creo el metodo para MOSTRAR el formulario de alta de receta
+	public String mostrarFormularioAlta(Model modelo) {
+		modelo.addAttribute("receta", new Receta()); //agrega al modelo una receta
+		modelo.addAttribute("ingredientes", ingredienteService.getAll()); //agrega al modelo una lista de todos los ingredientes disponibles
+		return "recetasAlta";	
+		}
+	
+	@RequestMapping(value = "/alta", method = RequestMethod.POST) //esto PROCESA el alta de la misma 
+	public String procesarAlta(@ModelAttribute("receta") Receta receta, org.springframework.ui.Model modelo) {
+	    try {
+	        recetaService.save(receta);
+	        // Redirigís al menú o al listado de recetas después de guardar
+	        return "redirect:/recetasMenu";
+	    } catch (Exception e) {
+	        modelo.addAttribute("error", e.getMessage());
+	        // Volvés a mostrar el formulario con el mensaje de error
+	        return "recetasAlta";
+	    }
+	}
+
+	
+	
+	
 
 }
