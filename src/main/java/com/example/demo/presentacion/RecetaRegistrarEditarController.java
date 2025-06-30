@@ -21,7 +21,7 @@ import org.springframework.ui.Model;
 
 @Controller //iNDICO QUE ES UN CONTROLADOR
 @RequestMapping("/recetasMenu") //Mapeo la ruta base para las opercaiones de mi entidad
-public class RecetaController {
+public class RecetaRegistrarEditarController {
 	
 	@Autowired
 	private RecetaService recetaService;
