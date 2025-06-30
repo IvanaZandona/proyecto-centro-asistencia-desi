@@ -9,6 +9,7 @@ import com.example.demo.accesoDatos.IIngredienteRepo;
 import com.example.demo.accesoDatos.IRecetaRepo;
 import com.example.demo.entidades.Ingrediente;
 import com.example.demo.entidades.ItemReceta;
+import com.example.demo.entidades.Preparacion;
 import com.example.demo.entidades.Receta;
 import com.example.demo.excepciones.Excepcion;
 
@@ -73,4 +74,6 @@ public class RecetaServiceImpl implements RecetaService {
     public List<Ingrediente> listarIngredientes() {
         return ingredienteRepo.findAll();
     }
+
+
 }
