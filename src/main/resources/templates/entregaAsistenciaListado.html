@@ -7,7 +7,7 @@
 <body>
     <h1>Listado de Entregas de Asistencia</h1>
 
-    <form th:action="@{/entregasAsistencia/listado}" method="get">
+    <form th:action="@{/entregaAsistenciaMenu/listado}" method="get">
         <label for="fecha">Fecha:</label>
         <input type="date" id="fecha" name="fecha" th:value="${fechaFiltro}" />
 
@@ -18,7 +18,7 @@
         <input type="text" id="nombreFamilia" name="nombreFamilia" th:value="${nombreFamiliaFiltro}" />
 
         <button type="submit">Filtrar</button>
-        <button type="button" onclick="window.location.href='/entregasAsistencia/listado'">Mostrar Hoy</button>
+        <button type="button" onclick="window.location.href='/entregaAsistenciaMenu/listado'">Mostrar Hoy</button>
     </form>
     <br/>
 
@@ -49,13 +49,13 @@
                 <td th:text="${entrega.cantidadRaciones}"></td>
                 <td th:text="${entrega.voluntario.nombre + ' ' + entrega.voluntario.apellido}"></td>
                 <td>
-                    <a th:href="@{/entregasAsistencia/eliminar/{id}(id=${entrega.id})}"
+                    <a th:href="@{/entregaAsistenciaMenu/eliminar/{id}(id=${entrega.id})}"
                        onclick="return confirm('¿Estás seguro de que quieres eliminar esta entrega? Esto devolverá el stock.');">Eliminar</a>
                 </td>
             </tr>
         </tbody>
     </table>
 
-    <p><a th:href="@{/entregasAsistencia/alta}">Registrar Nueva Entrega de Asistencia</a></p>
+    <p><a th:href="@{/entregaAsistenciaMenu/alta}">Registrar Nueva Entrega de Asistencia</a></p>
 </body>
 </html>

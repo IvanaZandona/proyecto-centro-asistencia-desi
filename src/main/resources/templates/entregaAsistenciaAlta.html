@@ -7,9 +7,9 @@
 <body>
     <h1>Registrar Nueva Entrega de Asistencia</h1>
 
-    <form th:action="@{/entregasAsistencia/alta}" th:object="${entregaForm}" method="post">
-        <div th:if="${#fields.hasErrors('globalError')}" class="error-message">
-            <p th:each="err : ${#fields.errors('globalError')}" th:text="${err}"></p>
+    <form th:action="@{/entregaAsistenciaMenu/alta}" th:object="${entregaForm}" method="post">
+        <div th:if="${#fields.hasGlobalErrors()}" class="error-message">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
         </div>
 
         <div>
@@ -57,6 +57,6 @@
         <button type="submit">Registrar Entrega</button>
     </form>
 
-    <p><a th:href="@{/entregasAsistencia/listado}">Volver al Listado de Entregas</a></p>
+    <p><a th:href="@{/entregaAsistenciaMenu/listado}">Volver al Listado de Entregas</a></p>
 </body>
 </html>
