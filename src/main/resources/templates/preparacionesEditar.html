@@ -6,18 +6,40 @@
     <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <body>
-	<h1>Editar Preparacion</h1>
+	<h2 th:text="${formBean.id} ? #{preparacion.editar.titulo}: #{preparacion.alta.titulo}" />
 	   <form th:action="@{/preparacionesMenu/editar}" th:object="${formBean}" method="post">
-	       <label for="Id">ID:</label>
-	       <input type="text" id="Id" th:field="*{Id}" required />
-	       <label for="totalRacionesPreparadas">Total Raciones Preparadas:</label>
-	       <input type="number" id="totalRacionesPreparadas" th:field="*{totalRacionesPreparadas}" required />
-	       <label for="stockRacionesRestantes">Stock Raciones Restantes:</label>
-	       <input type="number" id="stockRacionesRestantes" th:field="*{stockRacionesRestantes}" required />
-	       <label for="fechaCoccion">Fecha Cocción:</label>
-	       <input type="date" id="fechaCoccion" th:field="*{fechaCoccion}" required />
-	       <button type="submit">Actualizar</button>
+		<table border="0">
+		<tr>
+		<input type="hidden" id="id" th:field="*{id}">
+		<td><label for="idreceta">Receta:</label></td>
+		<td><select id="idreceta" th:field="*{idreceta}" required>
+			<option th:each="r : ${recetas}" 
+				th:value="${r.id}" 
+				th:text="${r.nombre}"></option>
+		</select></td>
+		</tr>
+		<tr>
+		<td><label for="totalRacionesPreparadas">Total Raciones Preparadas:</label></td>
+		<td><input type="number" id="totalRacionesPreparadas" th:field="*{totalRacionesPreparadas}" required /></td>
+		</tr>
+		<tr>
+		<td><label for="stockRacionesRestantes">Stock Raciones Restantes:</label></td>
+		<td><input type="number" id="stockRacionesRestantes" th:field="*{stockRacionesRestantes}" required /></td>
+		</tr>
+		<tr>
+		<td><label for="fechaCoccion">Fecha Cocción:</label></td>
+		<td><input type="date" id="fechaCoccion" th:field="*{fechaCoccion}" required /></td>
+		</tr>
+		<tr>
+	    <td><button type="submit" th:text="${formBean.id} ? #{preparacion.editar.boton}: #{preparacion.alta.boton}"></button></td>
+		</tr>
+		<tr>
+		<td></td>
+		</tr>
+		<tr>
+		<td><a th:href="${formBean.id} ? @{/preparacionesMenu/listado}: @{/preparacionesMenu}">← Volver</a></td>
+		</tr>
 	   </form>
-	   <a th:href="@{/preparacionesMenu/listado}">← Volver al Listado</a>
+	   
 </body>
 </html>

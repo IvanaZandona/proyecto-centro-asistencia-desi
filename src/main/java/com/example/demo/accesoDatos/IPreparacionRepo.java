@@ -18,4 +18,7 @@ public interface IPreparacionRepo extends JpaRepository<Preparacion, Long> {
     @Query("SELECT p FROM Preparacion p WHERE p.fechaCoccion = :fechaCoccion")
     List<Preparacion> buscarPorFechaCoccion(java.time.LocalDate fechaCoccion);
     
+    @Query("SELECT p FROM Preparacion p WHERE p.id = :id or p.receta.id=:idreceta")
+	List<Preparacion> findByIdOrIdReceta(Long id, Long idreceta);
+    
 }

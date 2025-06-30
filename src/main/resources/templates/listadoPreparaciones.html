@@ -6,12 +6,12 @@
     <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <body>
-	<h1>Listado de Preparaciones</h1>
+	<h1 th:text="#{preparacion.listar.titulo}" />
 	    <table border="1">
 	        <thead>
 	            <tr>
 					<th>Id</th>
-					<!--<th>Receta</th>-->
+					<th>Receta</th>
 					<th>Cantidad de Raciones</th>
 					<th>Stock de Raciones</th>
 					<th>Fecha Coccion</th>
@@ -21,7 +21,7 @@
 	        <tbody>
 	            <tr th:each="preparacion : ${preparaciones}">
 					<td th:text="${preparacion.id}"></td>
-					<!--<td th:text="${preparacion.receta_idreceta}"></td>-->
+					<td th:text="${preparacion.receta != null ? preparacion.receta.nombre : 'Sin receta'}"></td>
 					<td th:text="${preparacion.totalRacionesPreparadas}"></td>
 					<td th:text="${preparacion.stockRacionesRestantes}"></td>
 					<td th:text="${preparacion.fechaCoccion}"></td>

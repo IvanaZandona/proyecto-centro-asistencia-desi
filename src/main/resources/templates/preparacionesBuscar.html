@@ -8,15 +8,34 @@
 
 
 <body>
-	<h1>Buscar Preparaciones</h1>
+	<h1 th:text="#{preparacion.buscar.titulo}" />
 
 	<form th:action="@{/preparacionesBuscar}" th:object="${formBean}" method="post">
-	    <label for="Id">ID:</label>
-	    <input type="text" th:field="*{id}" />
+		<table border="1" style="align-self: center;">
+		<tr>
+	    <td><label for="id">ID:</label></td>
+	    <td><input type="text" th:field="*{id}" /></td>
+		</tr>
+		<tr>
+		<td><label for="recetaSeleccionada">Receta:</label></td>
+		<td>
+			<select th:field="*{recetaSeleccionada}">
+				<option th:value="null" text="Seleccione una opción"></option>
+				<option th:each="r : ${allRecetas}" 
+					th:value="${r.id}" 
+					th:text="${r.nombre}"></option>
+			</select>
+		</td>
+		</tr>
+		</table>
 	    <br/>
-	    <button type="submit" name="action" value="actionBuscar">Buscar</button>
-	    <button type="submit" name="action" value="actionRegistrar">Registrar nueva preparacion</button>
-	    <button type="submit" name="action" value="actionCancelar">Cancelar</button>
+		<table class="botones">
+		<tr>
+	    	<td><button type="submit" name="action" value="actionBuscar">Buscar</button></td>
+	    	<td><button type="submit" name="action" value="actionRegistrar">Registrar nueva preparacion</button></td>
+	    	<td><button type="submit" name="action" value="actionCancelar">Cancelar</button></td>
+		</tr>
+		</table>
 	</form>
 
 	<h2>Listado de Preparaciones</h2>
@@ -33,14 +52,14 @@
 	    </thead>
 	    <tbody>
 	        <tr th:each="preparacion : ${preparaciones}">
-	            <td th:text="${preparacion.idpreparacion}"></td>
-	            <td th:text="${preparacion.receta_idreceta}"></td>
-	            <td th:text="${preparacion.total_raciones_preparadas}"></td>
-				<td th:text="${preparacion.stock_raciones_restantes}"></td>
-				<td th:text="${preparacion.fecha_coccion}"></td>
+	            <td th:text="${preparacion.id}"></td>
+				<td th:text="${preparacion.receta != null ? preparacion.receta.nombre : 'Sin receta'}"></td>
+				<td th:text="${preparacion.totalRacionesPreparadas}"></td>
+				<td th:text="${preparacion.stockRacionesRestantes}"></td>
+				<td th:text="${preparacion.fechaCoccion}"></td>
 	            <td>
-	                <a th:href="@{/preparaciones/editar/{id}(id=${preparacion.idpreparacion})}">Editar</a> |
-	                <a th:href="@{/preparaciones/eliminar/{id}(id=${preparacion.idpreparacion})}">Eliminar</a>
+	                <a th:href="@{/preparaciones/editar/{id}(id=${preparacion.id})}">Editar</a> |
+	                <a th:href="@{/preparaciones/eliminar/{id}(id=${preparacion.id})}">Eliminar</a>
 	            </td>
 	        </tr>
 	    </tbody>

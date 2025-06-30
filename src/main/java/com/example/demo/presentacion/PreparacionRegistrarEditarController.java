@@ -42,11 +42,17 @@ public class PreparacionRegistrarEditarController {
         return "preparacionesMenu";
     }
 		
+	@ModelAttribute("allRecetas")
+    public List<Receta> getAllRecetas() {
+        return this.recetaService.getAll();
+    }
+	
+	
 	@RequestMapping(value = "/alta", method = RequestMethod.GET)
 	public String preparaFormAlta(Model modelo) {
 		modelo.addAttribute("formBean", new PreparacionForm());
 		modelo.addAttribute("recetas", recetaService.getAll());
-	    return "preparacionesAlta";
+	    return "preparacionesEditar";
 	 }
 	
 	@RequestMapping(value = "/listado", method = RequestMethod.GET)
@@ -60,6 +66,7 @@ public class PreparacionRegistrarEditarController {
 	@RequestMapping(value = "/editar/{Id}", method = RequestMethod.GET)
     public String preparaFormEdicion(Model modelo, @PathVariable("Id") Long Id) {
         Preparacion preparacion = preparacionService.getById(Id);
+        modelo.addAttribute("recetas", recetaService.getAll());
         modelo.addAttribute("formBean", new PreparacionForm(preparacion));
         return "preparacionesEditar";
     }
@@ -75,7 +82,8 @@ public class PreparacionRegistrarEditarController {
                               BindingResult result, ModelMap modelo) {
         if (result.hasErrors()) {
             modelo.addAttribute("formBean", formBean);
-            return "preparacionesAlta";
+            modelo.addAttribute("recetas", recetaService.getAll());
+            return "preparacionesEditar";
         } else {
             try {
                 Preparacion preparacion = formBean.toPojo();
@@ -86,8 +94,9 @@ public class PreparacionRegistrarEditarController {
                 result.addError(new ObjectError("globalError", e.getMessage()));
                 e.printStackTrace();
                 modelo.addAttribute("formBean", formBean);
+                modelo.addAttribute("recetas", recetaService.getAll());
                 modelo.addAttribute("errorMsg", e.toString());
-                return "preparacionesAlta";
+                return "preparacionesEditar";
             }
         }
     }
@@ -97,14 +106,18 @@ public class PreparacionRegistrarEditarController {
                                  BindingResult result, ModelMap modelo) {
         if (result.hasErrors()) {
             modelo.addAttribute("formBean", formBean);
+            modelo.addAttribute("recetas", recetaService.getAll());
             return "preparacionesEditar";
         } else {
             try {
-                preparacionService.save(formBean.toPojo());
+                Preparacion preparacion = formBean.toPojo();
+                preparacion.setReceta(recetaService.getById(formBean.getIdreceta()));
+                preparacionService.save(preparacion);
                 return "redirect:/preparacionesMenu/listado";
             } catch (Excepcion e) {
                 result.addError(new ObjectError("globalError", e.getMessage()));
                 modelo.addAttribute("formBean", formBean);
+                modelo.addAttribute("recetas", recetaService.getAll());
                 return "preparacionesEditar";
             }
         }
