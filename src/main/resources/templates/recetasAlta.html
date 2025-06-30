@@ -14,19 +14,9 @@
 			<input type="text" id="descripcion" th:field="*{descripcion}" required />
 			
 			<h3>Ingredientes</h3>
-			
 			<div th:each="item, iterStat: *{items}">
-				<label> Ingredientes </label>
-				
-				
-				
-				
-				
+				<label> Ingredientes </label>	
 			</div>			
-			
-			
-			
-			
 	        <button type="submit">Guardar</button>
 	    </form>
 	    <a th:href="@{/familiasMenu}">← Volver al Menú</a>

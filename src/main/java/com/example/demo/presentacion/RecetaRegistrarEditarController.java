@@ -61,12 +61,24 @@ public class RecetaRegistrarEditarController {
 		return "recetasListar";
 	}
 	
-	@RequestMapping(value = "/editar", method = RequestMethod.GET)
-	public String mostratFormularioEditar(@PathVariable Long id, Model modelo ) throws Excepcion {
+	@RequestMapping(value = "/editar/{id}", method = RequestMethod.GET)
+	public String mostratFormularioEditar(@PathVariable("id") Long id, Model modelo ) throws Excepcion {
 		Receta receta =  recetaService.getById(id);
 		modelo.addAttribute("receta", receta);
 		modelo.addAttribute("ingredientes", ingredienteService.getAll());
 		return "recetasEditar";
+	}
+	
+	@RequestMapping(value = "/editar", method = RequestMethod.POST)
+	public String procesarEdicion(@ModelAttribute("receta") Receta receta, Model modelo) {
+		try {
+			recetaService.save(receta); //
+			return "redirect:/recetasMenu/listar";
+		} catch (Exception e) {
+			modelo.addAttribute("errror", e.getMessage());
+			modelo.addAttribute("ingredientes", ingredienteService.getAll());
+			return "recetasEditar";
+		}
 	}
 	
 	
