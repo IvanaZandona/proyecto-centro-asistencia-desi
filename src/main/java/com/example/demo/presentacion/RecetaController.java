@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.example.demo.entidades.Preparacion;
 import com.example.demo.entidades.Receta;
+import com.example.demo.excepciones.Excepcion;
 import com.example.demo.servicios.RecetaService;
 import com.example.demo.servicios.IngredienteService;
 
@@ -59,6 +60,17 @@ public class RecetaController {
 		modelo.addAttribute("recetas", recetas);
 		return "recetasListar";
 	}
+	
+	@RequestMapping(value = "/editar", method = RequestMethod.GET)
+	public String mostratFormularioEditar(@PathVariable Long id, Model modelo ) throws Excepcion {
+		Receta receta =  recetaService.getById(id);
+		modelo.addAttribute("receta", receta);
+		modelo.addAttribute("ingredientes", ingredienteService.getAll());
+		return "recetasEditar";
+	}
+	
+	
+	
 	
 	
 	
