@@ -16,33 +16,38 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entidades.Preparacion;
+import com.example.demo.entidades.Receta;
 import com.example.demo.servicios.PreparacionService;
+import com.example.demo.servicios.RecetaService;
 
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/preparacionBuscar")
+@RequestMapping("/preparacionesBuscar")
 public class PreparacionBuscarController {
 
 	@Autowired
 	private PreparacionService preparacionService;
 	
-	@GetMapping("/")
+	@Autowired
+	private RecetaService recetaService;
+	/*@GetMapping("/")
 	public String mostrarIndex() {
 	    return "index"; // Renderiza src/main/resources/templates/index.html
-	}
+	}*/
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String preparacionForm(Model modelo) {
 		PreparacionBuscarForm form = new PreparacionBuscarForm();
+		form.setRecetas(recetaService.getAll());
 		modelo.addAttribute("formBean", form);
-		//modelo.addAttribute("preparacion", preparacionService.getAll()); // muestra todo inicialmente
+		modelo.addAttribute("preparaciones", preparacionService.getAll()); // muestra todo inicialmente
 		return "preparacionesBuscar";
 	}
 	
-	@ModelAttribute("allPreparaciones")
-    public List<Preparacion> getAllPreparaciones() {
-        return this.preparacionService.getAll();
+	@ModelAttribute("allRecetas")
+    public List<Receta> getAllRecetas() {
+        return this.recetaService.getAll();
     }
 	
 	@RequestMapping(method = RequestMethod.POST)
@@ -51,8 +56,8 @@ public class PreparacionBuscarController {
 
 		if (action.equals("actionBuscar")) {
 			try {
-				Preparacion preparacion = preparacionService.filter(formBean.getId());
-				modelo.addAttribute("preparaciones", preparacion); // reemplaza resultados por preparacion
+				List<Preparacion> preparaciones = preparacionService.filter(formBean);
+				modelo.addAttribute("preparaciones", preparaciones); // reemplaza resultados por preparacion
 			} catch (Exception e) {
 				result.addError(new ObjectError("globalError", e.getMessage()));
 			}

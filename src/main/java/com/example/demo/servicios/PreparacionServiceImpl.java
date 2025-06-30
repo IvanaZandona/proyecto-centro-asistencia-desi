@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.accesoDatos.IPreparacionRepo;
 import com.example.demo.entidades.Preparacion;
 import com.example.demo.excepciones.Excepcion;
+import com.example.demo.presentacion.PreparacionBuscarForm;
 
 import java.util.List;
 
@@ -29,11 +30,20 @@ public class PreparacionServiceImpl implements PreparacionService {
 		preparacionRepo.save(preparacion);
 	}
 
-	@Override
+	/*@Override
 	public Preparacion filter(Long Id) {
 		return preparacionRepo.findById(Id).orElse(null);
-	}
+	}*/
 
+	@Override 
+	public List<Preparacion> filter(PreparacionBuscarForm filter) throws Excepcion {
+		if (filter.getId() == null && filter.getRecetaSeleccionada() == null) {
+			throw new Excepcion("Es necesario al menos un filtro");
+		} else {
+			return preparacionRepo.findByIdOrIdReceta(filter.getId(), filter.getRecetaSeleccionada());
+		}
+	}
+	
 	@Override
 	public Preparacion getById(Long Id) {
 		 return preparacionRepo.findById(Id).orElse(null); 

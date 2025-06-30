@@ -21,6 +21,8 @@ public class PreparacionForm {
 	private LocalDate fechaCoccion;
 	
     private Long  idreceta; 
+    
+    private String nombreReceta;
 
 	public PreparacionForm() {
 		super();
@@ -33,7 +35,7 @@ public class PreparacionForm {
 		this.stock_raciones_restantes = p.getStockRacionesRestantes();
 		this.fechaCoccion = p.getFechaCoccion();
 		this.idreceta = p.getReceta().getId();
-		
+		this.nombreReceta = p.getReceta().getNombre();
 	}
 
 	public Preparacion toPojo() {
@@ -42,7 +44,6 @@ public class PreparacionForm {
 		preparacion.setTotalRacionesPreparadas(total_raciones_preparadas);
 		preparacion.setStockRacionesRestantes(stock_raciones_restantes);
 		preparacion.setFechaCoccion(fechaCoccion);
-		//preparacion.setReceta(receta); 
         return preparacion;
 	}
 
@@ -86,4 +87,11 @@ public class PreparacionForm {
 		return this.idreceta;
 	}
 	
+	public String getnombreReceta() {
+		return this.nombreReceta;
+	}
+	
+	public void setnombreReceta(String nombreReceta) {
+		this.nombreReceta = nombreReceta;
+	}
 }

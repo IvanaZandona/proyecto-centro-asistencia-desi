@@ -12,7 +12,7 @@ public class Preparacion {
 	@Column(name = "idpreparacion")
 	private Long id;
 	
-	@ManyToOne()
+	@ManyToOne(optional = false)
     @JoinColumn(name = "receta_idreceta")
     private Receta receta;
 
