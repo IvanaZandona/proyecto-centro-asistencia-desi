@@ -23,6 +23,7 @@ import com.example.demo.entidades.Receta;
 import com.example.demo.entidades.Preparacion;
 import com.example.demo.excepciones.Excepcion;
 import com.example.demo.servicios.PreparacionService;
+import com.example.demo.servicios.RecetaService;
 
 import jakarta.validation.Valid;
 
@@ -32,6 +33,9 @@ public class PreparacionRegistrarEditarController {
 
 	@Autowired
 	private PreparacionService preparacionService;
+	
+	@Autowired
+	private RecetaService recetaService;
 
 	@RequestMapping(method = RequestMethod.GET)
     public String mostrarMenu(Model modelo) {
@@ -41,6 +45,7 @@ public class PreparacionRegistrarEditarController {
 	@RequestMapping(value = "/alta", method = RequestMethod.GET)
 	public String preparaFormAlta(Model modelo) {
 		modelo.addAttribute("formBean", new PreparacionForm());
+		modelo.addAttribute("recetas", recetaService.getAll());
 	    return "preparacionesAlta";
 	 }
 	
@@ -74,12 +79,14 @@ public class PreparacionRegistrarEditarController {
         } else {
             try {
                 Preparacion preparacion = formBean.toPojo();
-                preparacion.setFechaCoccion(LocalDate.now());
+                preparacion.setReceta(recetaService.getById(formBean.getIdreceta()));
                 preparacionService.save(preparacion);
                 return "redirect:/preparacionesMenu/listado";
             } catch (Excepcion e) {
                 result.addError(new ObjectError("globalError", e.getMessage()));
+                e.printStackTrace();
                 modelo.addAttribute("formBean", formBean);
+                modelo.addAttribute("errorMsg", e.toString());
                 return "preparacionesAlta";
             }
         }

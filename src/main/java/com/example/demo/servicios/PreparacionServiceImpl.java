@@ -23,9 +23,9 @@ public class PreparacionServiceImpl implements PreparacionService {
 	@Override
 	public void save(Preparacion preparacion) throws Excepcion {
 		// Validación de ejemplo: no guardar si nombre es vacío
-		if (preparacion.getId() == null) {
+		/*if (preparacion.getId() == null) {
 			throw new Excepcion("El id es obligatorio.");
-		}
+		}*/
 		preparacionRepo.save(preparacion);
 	}
 

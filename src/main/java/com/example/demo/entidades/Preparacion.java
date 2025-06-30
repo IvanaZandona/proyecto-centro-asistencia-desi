@@ -8,11 +8,11 @@ import jakarta.persistence.*;
 public class Preparacion {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idpreparacion")
+    @GeneratedValue(strategy = GenerationType.TABLE)
+	@Column(name = "idpreparacion")
 	private Long id;
 	
-	@ManyToOne
+	@ManyToOne()
     @JoinColumn(name = "receta_idreceta")
     private Receta receta;
 

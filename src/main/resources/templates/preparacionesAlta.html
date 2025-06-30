@@ -8,8 +8,15 @@
 <body>
 	<h1>Dar de Alta una Preparacion</h1>
 	    <form th:action="@{/preparacionesMenu/alta}" th:object="${formBean}" method="post">
-	        <label for="Id">ID:</label>
-	        <input type="text" id="Id" th:field="*{Id}" required />
+	        <!--<label for="Id">ID:</label>
+	        <input type="text" id="Id" th:field="*{Id}" required />-->
+			<input type="hidden" id="id" th:field="*{id}">
+			<label for="idreceta">Receta:</label>
+			<select id="idreceta" th:field="*{idreceta}" required>
+				<option th:each="r : ${recetas}" 
+						th:value="${r.id}" 
+						th:text="${r.nombre}"></option>
+			</select>
 			<label for="totalRacionesPreparadas">Total Raciones Preparadas:</label>
 			<input type="number" id="totalRacionesPreparadas" th:field="*{totalRacionesPreparadas}" required />
 			<label for="stockRacionesRestantes">Stock Raciones Restantes:</label>
@@ -19,6 +26,7 @@
  
 	        <button type="submit">Guardar</button>
 	    </form>
+		<h1 th:text="${errorMsg}"></h1>
 	    <a th:href="@{/preparacionesMenu}">← Volver al Menú</a>
 </body>
 </html>

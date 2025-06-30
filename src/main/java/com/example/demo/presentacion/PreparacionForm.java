@@ -12,7 +12,7 @@ import jakarta.validation.constraints.Size;
 
 public class PreparacionForm {
 
-	private Long Id;
+	private Long id;
 
 	private Integer total_raciones_preparadas;
 	
@@ -20,37 +20,38 @@ public class PreparacionForm {
 	@NotNull
 	private LocalDate fechaCoccion;
 	
-    private Receta receta = new Receta(); // Lista de integrantes
+    private Long  idreceta; 
 
 	public PreparacionForm() {
 		super();
 	}
 
 	public PreparacionForm(Preparacion p) {
-		this.Id = p.getId();
+		super();
+		this.id = p.getId();
 		this.total_raciones_preparadas = p.getTotalRacionesPreparadas();
 		this.stock_raciones_restantes = p.getStockRacionesRestantes();
 		this.fechaCoccion = p.getFechaCoccion();
-		this.receta = p.getReceta();
+		this.idreceta = p.getReceta().getId();
 		
 	}
 
 	public Preparacion toPojo() {
 		Preparacion preparacion = new Preparacion();
-		preparacion.setId(Id);
+		preparacion.setId(this.id);
 		preparacion.setTotalRacionesPreparadas(total_raciones_preparadas);
 		preparacion.setStockRacionesRestantes(stock_raciones_restantes);
 		preparacion.setFechaCoccion(fechaCoccion);
-		preparacion.setReceta(receta); 
+		//preparacion.setReceta(receta); 
         return preparacion;
 	}
 
 	public Long getId() {
-		return Id;
+		return this.id;
 	}
 
-	public void setId(Long Id) {
-		this.Id = Id;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Integer getTotalRacionesPreparadas() {
@@ -75,6 +76,14 @@ public class PreparacionForm {
 
 	public void setFechaCoccion(LocalDate fechaCoccion) {
 		this.fechaCoccion = fechaCoccion;
+	}
+	
+	public void setIdreceta(Long idreceta) {
+		this.idreceta = idreceta;
+	}
+	
+	public Long getIdreceta() {
+		return this.idreceta;
 	}
 	
 }
