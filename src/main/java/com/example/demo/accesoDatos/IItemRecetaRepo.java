@@ -20,13 +20,9 @@ public interface IItemRecetaRepo extends JpaRepository<ItemReceta, Long> {
 	
 	List<ItemReceta> findByIngrediente(Ingrediente ingrediente);
 	
-	Optional <ItemReceta> findbyRecetaAndIngrediente (Receta receta, Ingrediente ingrediente);
+	Optional <ItemReceta> findByRecetaAndIngrediente (Receta receta, Ingrediente ingrediente);
 	
-	List<ItemReceta> deletebyReceta (Receta receta);
-	
-
-	
-
+	void deleteByReceta (Receta receta);
 	
 	
 }
