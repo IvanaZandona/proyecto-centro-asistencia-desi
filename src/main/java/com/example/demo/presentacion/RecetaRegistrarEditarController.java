@@ -81,12 +81,15 @@ public class RecetaRegistrarEditarController {
 		}
 	}
 	
-	
-	
-	
-	
-	
-	
-	
+	@RequestMapping(value = "/eliminar/{id}", method = RequestMethod.GET)
+	public String eliminarReceta(@PathVariable("id") Long id, Model modelo) {
+		try {
+			recetaService.deleteById(id);
+			return "redirect:/recetasMenu/listar";
+		} catch (Exception e) {
+			modelo.addAttribute("error", e.getMessage());
+			return "recetas/eliminar";
+		}
+	}	
 
 }
