@@ -1,5 +1,7 @@
 package com.example.demo.presentacion;
 
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,9 +50,10 @@ public class RecetaRegistrarEditarController {
 		}
 	
 	@RequestMapping(value = "/alta", method = RequestMethod.POST) //esto PROCESA el alta de la misma 
-	public String procesarAlta(@ModelAttribute("receta") Receta receta, org.springframework.ui.Model modelo) {
+	public String procesarAlta(@ModelAttribute("receta") Receta receta, Model modelo, RedirectAttributes redirectAttributes) {
 	    try {
 	        recetaService.save(receta);
+	        redirectAttributes.addFlashAttribute("success", "Receta cargada correctamente");
 	        // Redirigís al menú o al listado de recetas después de guardar
 	        return "redirect:/recetasMenu";
 	    } catch (Exception e) {
@@ -63,9 +66,9 @@ public class RecetaRegistrarEditarController {
 	
 	@RequestMapping(value = "/listado", method = RequestMethod.GET)
 	public String listarRecetas(Model modelo) {
-		List<Receta> recetas = recetaService.getAll();
-		modelo.addAttribute("recetas", recetas);
-		return "listadoRecetas";
+		    List<Receta> recetas = recetaService.getAll();
+		    modelo.addAttribute("recetas", recetas);
+		    return "listadoRecetas";
 	}
 	
 	@RequestMapping(value = "/editar/{id}", method = RequestMethod.GET)
@@ -80,7 +83,7 @@ public class RecetaRegistrarEditarController {
 	public String procesarEdicion(@ModelAttribute("receta") Receta receta, Model modelo) {
 		try {
 			recetaService.save(receta); //
-			return "redirect:/recetasMenu/listar";
+			return "redirect:/recetasMenu/editar";
 		} catch (Exception e) {
 			modelo.addAttribute("errror", e.getMessage());
 			modelo.addAttribute("ingredientes", ingredienteService.getAll());
