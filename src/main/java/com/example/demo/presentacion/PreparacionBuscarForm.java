@@ -34,4 +34,4 @@ public class PreparacionBuscarForm {
 	public void setRecetaSeleccionada(Long idreceta) {
 		this.recetaSeleccionada = idreceta;
 	}
-}
+	

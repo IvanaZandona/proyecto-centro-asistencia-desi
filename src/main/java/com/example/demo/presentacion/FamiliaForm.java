@@ -20,8 +20,12 @@ public class FamiliaForm {
 
 	@NotNull
 	private LocalDate fechaRegistro;
-	
-    private List<Asistido> asistidos = new ArrayList<>(); // Lista de integrantes
+	    
+    @NotNull
+    @Size(min = 1)
+    private List<AsistidoForm> integrantes = new ArrayList<>();
+    
+    private AsistidoForm nuevoIntegrante = new AsistidoForm(); // este se usa para el form individual
 
 	public FamiliaForm() {
 		super();
@@ -31,16 +35,41 @@ public class FamiliaForm {
 		this.nroFamilia = f.getNroFamilia();
 		this.nombre = f.getNombre();
 		this.fechaRegistro = f.getFechaRegistro();
-		this.asistidos = f.getAsistidos();
+		this.integrantes = new ArrayList<>();
+		for (Asistido a : f.getAsistidos()) {
+		    AsistidoForm af = new AsistidoForm();
+		    af.setDni(a.getDni());
+		    af.setNombre(a.getNombre());
+		    af.setApellido(a.getApellido());
+		    af.setDomicilio(a.getDomicilio());
+		    af.setFechaNacimiento(a.getFechaNacimiento());
+		    af.setOcupacion(a.getOcupacion());
+		    this.integrantes.add(af);
+		    }
 	}
 
 	public Familia toPojo() {
 		Familia familia = new Familia();
-        familia.setNroFamilia(nroFamilia);
-        familia.setNombre(nombre);
-        familia.setFechaRegistro(fechaRegistro);
-        familia.setAsistidos(asistidos); 
-        return familia;
+	    familia.setNroFamilia(nroFamilia);
+	    familia.setNombre(nombre);
+	    familia.setFechaRegistro(LocalDate.now());
+
+	    List<Asistido> asistidos = new ArrayList<>();
+	    for (AsistidoForm af : this.integrantes) {
+	        Asistido asistido = new Asistido(
+	            af.getNombre(),
+	            af.getApellido(),
+	            af.getDomicilio(),
+	            af.getOcupacion(),
+	            af.getDni(),
+	            af.getFechaNacimiento(),
+	            LocalDate.now()
+	        );
+	        asistido.setFamilia(familia);
+	        asistidos.add(asistido);
+	    }
+	    familia.setAsistidos(asistidos);
+	    return familia;
 	}
 
 	public Integer getNroFamilia() {
@@ -65,6 +94,22 @@ public class FamiliaForm {
 
 	public void setFechaRegistro(LocalDate fechaRegistro) {
 		this.fechaRegistro = fechaRegistro;
+	}
+	
+	public List<AsistidoForm> getIntegrantes() {
+	    return integrantes;
+	}
+
+	public void setIntegrantes(List<AsistidoForm> integrantes) {
+	    this.integrantes = integrantes;
+	}
+
+	public AsistidoForm getNuevoIntegrante() {
+		return nuevoIntegrante;
+	}
+
+	public void setNuevoIntegrante(AsistidoForm nuevoIntegrante) {
+		this.nuevoIntegrante = nuevoIntegrante;
 	}
 	
 }

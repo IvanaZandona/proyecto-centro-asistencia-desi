@@ -68,6 +68,10 @@ float: left;
 .error {
     color: red;
 }
+input.error {
+    border: 1px solid red;
+}
+
 
 .menu {
   display: flex;
