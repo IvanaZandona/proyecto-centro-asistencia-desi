@@ -1,5 +1,6 @@
 package com.example.demo.presentacion;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.example.demo.entidades.ItemReceta;
 import com.example.demo.entidades.Preparacion;
 import com.example.demo.entidades.Receta;
 import com.example.demo.excepciones.Excepcion;
@@ -37,7 +39,11 @@ public class RecetaRegistrarEditarController {
 	@RequestMapping(value ="/alta",method = RequestMethod.GET) //creo el metodo para MOSTRAR el formulario de alta de receta
 	public String mostrarFormularioAlta(Model modelo) {
 		modelo.addAttribute("receta", new Receta()); //agrega al modelo una receta
-		modelo.addAttribute("ingredientes", ingredienteService.getAll()); //agrega al modelo una lista de todos los ingredientes disponibles
+		modelo.addAttribute("ingredientes", ingredienteService.getAll());//agrega al modelo una lista de todos los ingredientes disponibles
+		Receta receta = new Receta();
+		receta.setItems(new ArrayList<>());
+		receta.getItems().add(new ItemReceta()); 
+		modelo.addAttribute("receta", receta);
 		return "recetasAlta";	
 		}
 	

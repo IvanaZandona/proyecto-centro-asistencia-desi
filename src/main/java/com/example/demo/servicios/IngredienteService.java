@@ -11,5 +11,8 @@ public interface IngredienteService {
 
 	void save(Ingrediente ingrediente, Long idCondimento, Long idProducto) throws Exception;
 
+
+	void saveProducto(String nombre, Integer calorias, Float stock, Float precio) throws Exception;
+
 	
 }

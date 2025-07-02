@@ -24,28 +24,6 @@ public class Ingrediente {
     @Column(name = "cantidad")
 	private Integer cantidad;
     
-    @ManyToOne
-    private Condimento condimento;
-
-    public Condimento getCondimento() {
-		return condimento;
-	}
-
-	public void setCondimento(Condimento condimento) {
-		this.condimento = condimento;
-	}
-
-	public Producto getProducto() {
-		return producto;
-	}
-
-	public void setProducto(Producto producto) {
-		this.producto = producto;
-	}
-
-	@ManyToOne
-    private Producto producto;
-
     
 	public Ingrediente() {
 	    // Constructor vacío requerido por JPA

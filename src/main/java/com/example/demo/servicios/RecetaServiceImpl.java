@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.accesoDatos.IIngredienteRepo;
 import com.example.demo.accesoDatos.IRecetaRepo;
+import com.example.demo.entidades.Condimento;
 import com.example.demo.entidades.Ingrediente;
 import com.example.demo.entidades.ItemReceta;
 import com.example.demo.entidades.Preparacion;
+import com.example.demo.entidades.Producto;
 import com.example.demo.entidades.Receta;
 import com.example.demo.excepciones.Excepcion;
 
@@ -49,6 +51,17 @@ public class RecetaServiceImpl implements RecetaService {
             if (item.getIngrediente() == null || item.getIngrediente().getId() == null) {
                 throw new Exception("Cada item debe tener un ingrediente válido");
             }
+            
+            //Buscar un ingrediente persistente
+            Ingrediente ingredientePersistente = ingredienteRepo.findById(item.getIngrediente().getId())
+            		.orElseThrow(() -> new Exception("Ingrediente no encontrado con ID: " + item.getIngrediente().getId()));
+            
+            if (!(ingredientePersistente instanceof Producto) && !(ingredientePersistente instanceof Condimento)) {
+                throw new Exception("El ingrediente debe estar definido como condimento o producto");
+            }
+ 
+            item.setIngrediente(ingredientePersistente);
+            
             if (item.getCantidad() == null || item.getCantidad() <= 0) {
                 throw new Exception("La cantidad debe ser mayor a cero");
             }

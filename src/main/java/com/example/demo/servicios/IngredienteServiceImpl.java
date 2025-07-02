@@ -30,35 +30,24 @@ public class IngredienteServiceImpl implements IngredienteService {
 	public List<Ingrediente> getAll(){
 		return ingredienteRepo.findAll();
 	}
-	
-	@Override 
-	public void save(Ingrediente ingrediente, Long idCondimento, Long idProducto) throws Exception{
-		if(ingrediente.getNombre() == null || ingrediente.getNombre().isBlank()) {
-			throw new Exception ("Para crear un ingrediente, todos los datos deben estar completos");
-		}
-		
-		if((idCondimento != null && idProducto != null) || (idCondimento == null && idProducto == null)) {
-			throw new Exception("El ingrediente debe tener asociado un condimento o un producto, no ambos ni ninguno");
-		}
-		
-		ingrediente.setNombre(ingrediente.getNombre());
-		ingrediente.setCalorias(ingrediente.getCalorias());
-		ingrediente.setCantidad(ingrediente.getCantidad());
-		
-		if(idCondimento != null) {
-			Condimento condimento =  condimentoRepo.findById(idCondimento)
-					.orElseThrow(() -> new Exception("El condimento no existe"));
-			ingrediente.setCondimento(condimento);
-		}
-		
-		if(idProducto != null) {
-			Producto producto =  productoRepo.findById(idProducto)
-					.orElseThrow(() -> new Exception("El producto no existe"));
-			producto.setProducto(producto);
-		}
-		ingredienteRepo.save(ingrediente);
-		
+	 
+	public void saveProducto(String nombre, Integer calorias, Float stock, Float precio) throws Exception {
+		if (nombre == null || nombre.isBlank() || calorias == null || stock == null || precio == null) {
+	        throw new Exception("Todos los datos son obligatorios para crear un producto");
+	    }
+	    Producto producto = new Producto(nombre, calorias, stock, precio);
+	    productoRepo.save(producto);
 	}
+
+
+	public void saveCondimento(String nombre, Integer calorias) throws Exception{
+		if (nombre == null || nombre.isBlank() || calorias == null ) {
+	        throw new Exception("Todos los datos son obligatorios para crear un producto");
+	    }
+	    Condimento condimento = new Condimento(nombre, calorias);
+	    condimentoRepo.save(condimento);
+	}
+
 	
 	
 	public List<Condimento> listarCondimentos(){
@@ -68,12 +57,12 @@ public class IngredienteServiceImpl implements IngredienteService {
 	public List<Producto> listarProductos(){
 		return productoRepo.findAll();
 	}
-	
-	
-	
-	
-	
-	
-	
+
+	@Override
+	public void save(Ingrediente ingrediente, Long idCondimento, Long idProducto) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+		
 	
 }
