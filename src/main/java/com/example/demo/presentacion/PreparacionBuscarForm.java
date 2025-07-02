@@ -35,3 +35,4 @@ public class PreparacionBuscarForm {
 		this.recetaSeleccionada = idreceta;
 	}
 	
+}
