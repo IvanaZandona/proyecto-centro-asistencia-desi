@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8">
-		<title>Listado de Familias</title>
+		<title>Listado de Recetas</title>
 	    <link rel="stylesheet" th:href="@{/css/main.css}" />
 	</head>
 	<body>
@@ -13,14 +13,19 @@
 				<th>Nombre</th>
 				<th>Descripcion</th>
 			</tr>
-			<tr th:each="receta : ${receta}">
+			<tr th:each="receta : ${recetas}">
+				<td th:text="${receta.id}"></td> 
 				<td th:text="${receta.nombre}"></td>
-				<td th:text="${receta.descripcion}"></td>
-				<td></td>
-					<a th:href="@{'/recetasMenu/editar/' + ${receta.id}}">Editar</a>
-					<a th:href="@{'/recetasMenu/eliminar/' + ${receta.id}}">Eliminar</a>
-				</td>
+				<td th:text="${receta.descripcion}"></td>>
+				<td><a th:href="@{'/recetasMenu/editar/' + ${receta.id}}">Editar</a></td>
+				<td><a th:href="@{'/recetasMenu/eliminar/' + ${receta.id}}">Eliminar</a></td>
 			</tr>
 		</table>
+		<div class="footer">
+		        <a th:href="@{/}">← Volver al Menú Principal</a>
+		</div>
+		<div class="footer">
+			<a th:href="@{/recetasMenu}">← Volver al Menú de Recetas</a>
+		</div>
 	</body>
 </html>

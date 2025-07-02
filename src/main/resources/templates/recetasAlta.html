@@ -19,10 +19,8 @@
 			        <option th:each="ing : ${ingredientes}" th:value="${ing.id}" th:text="${ing.nombre}"></option>
 			    </select>
 			    <input type="number" th:field="*{items[__${iterStat.index}__].cantidad}" min="1" step="1" required placeholder="cantidad" />
-			    <input type="number" th:field="*{items[__${iterStat.index}__].calorias}" min="0" step="1" required  placeholder="calorias"/>
-				<input type="text"   th:field="*{items[__${iterStat.index}__]}" required ="Condimento o Producto" /> 
+			    <input type="number" th:field="*{items[__${iterStat.index}__].calorias}" min="0" step="1" required placeholder="calorias"/>
 			</div>
-			
 	        <button type="submit">Guardar</button>
 	    </form>
 	    <a th:href="@{/recetasMenu}">← Volver al Menú</a>

@@ -55,16 +55,17 @@ public class RecetaRegistrarEditarController {
 	        return "redirect:/recetasMenu";
 	    } catch (Exception e) {
 	        modelo.addAttribute("error", e.getMessage());
+	        modelo.addAttribute("ingredientes", ingredienteService.getAll());
 	        // Volvés a mostrar el formulario con el mensaje de error
 	        return "recetasAlta";
 	    }
 	}
 	
-	@RequestMapping(value = "/listar", method = RequestMethod.GET)
+	@RequestMapping(value = "/listado", method = RequestMethod.GET)
 	public String listarRecetas(Model modelo) {
 		List<Receta> recetas = recetaService.getAll();
 		modelo.addAttribute("recetas", recetas);
-		return "recetasListar";
+		return "listadoRecetas";
 	}
 	
 	@RequestMapping(value = "/editar/{id}", method = RequestMethod.GET)
