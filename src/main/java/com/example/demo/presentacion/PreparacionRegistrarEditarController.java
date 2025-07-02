@@ -55,13 +55,13 @@ public class PreparacionRegistrarEditarController {
 	    return "preparacionesEditar";
 	 }
 	
-	@RequestMapping(value = "/listado", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/listado", method = RequestMethod.GET)
     public String listarPreparaciones(Model modelo) {
         List<Preparacion> preparaciones = preparacionService.findAll();
         modelo.addAttribute("formBean", new PreparacionBuscarForm());
         modelo.addAttribute("preparaciones", preparaciones);
         return "listadoPreparaciones";
-    }
+    }*/
 
 	@RequestMapping(value = "/editar/{Id}", method = RequestMethod.GET)
     public String preparaFormEdicion(Model modelo, @PathVariable("Id") Long Id) {

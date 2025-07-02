@@ -12,6 +12,7 @@ public class Persona {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idpersona")
 	private Long id;
+	
 	@Column(name = "nombre")
 	private String nombre;
 	
