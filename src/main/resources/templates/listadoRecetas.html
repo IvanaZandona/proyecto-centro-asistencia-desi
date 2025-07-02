@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Listado de Familias</title>
+	    <link rel="stylesheet" th:href="@{/css/main.css}" />
+	</head>
+	<body>
+		<h1>Listado de Recetas</h1>
+		<table>
+			<tr>
+				<th>Id</th>
+				<th>Nombre</th>
+				<th>Descripcion</th>
+			</tr>
+			<tr th:each="receta : ${receta}">
+				<td th:text="${receta.nombre}"></td>
+				<td th:text="${receta.descripcion}"></td>
+				<td></td>
+					<a th:href="@{'/recetasMenu/editar/' + ${receta.id}}">Editar</a>
+					<a th:href="@{'/recetasMenu/eliminar/' + ${receta.id}}">Eliminar</a>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

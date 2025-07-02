@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Receta</title>
+</head>
+<body>
+    <h1>Editar Receta</h1>
+    <!-- El formulario se enviará por POST a /recetasMenu/editar -->
+    <!-- th:object vincula el formulario al objeto 'receta' del modelo -->
+    <form th:action="@{/recetasMenu/editar}" th:object="${receta}" method="post">
+        
+        <!-- Campo oculto para el ID de la receta (necesario para identificar cuál se edita) -->
+        <input type="hidden" th:field="*{id}" />
+
+        <!-- Campo para el nombre de la receta, vinculado al atributo 'nombre' -->
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" th:field="*{nombre}" readonly/>
+
+        <!-- Campo para la descripción de la receta, vinculado al atributo 'descripcion' -->
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" th:field="*{descripcion}" required />
+
+        <h3>Ingredientes</h3>
+        <!-- Recorre la lista de items de la receta (cada uno es un ingrediente con cantidad y calorías) -->
+        <div th:each="item, iterStat : *{items}">
+            <!-- Select para elegir el ingrediente de este item -->
+            <label>Ingrediente:</label>
+            <select th:field="*{items[__${iterStat.index}__].ingrediente.id}">
+                <!-- Por cada ingrediente disponible, crea una opción en el select -->
+                <option th:each="ing : ${ingredientes}" 
+                        th:value="${ing.id}" 
+                        th:text="${ing.nombre}"></option>
+            </select>
+            <!-- Campo para la cantidad de este ingrediente -->
+            <label>Cantidad:</label>
+            <input type="number" th:field="*{items[__${iterStat.index}__].cantidad}" min="0.01" step="0.01" required />
+            <!-- Campo para las calorías de este ingrediente -->
+            <label>Calorías:</label>
+            <input type="number" th:field="*{items[__${iterStat.index}__].calorias}" min="0" required />
+            <br/>
+        </div>
+
+        <!-- Botón para enviar el formulario y guardar los cambios -->
+        <button type="submit">Guardar cambios</button>
+    </form>
+
+    <!-- Enlace para volver al listado o menú de recetas -->
+    <a th:href="@{/recetasMenu/listar}">← Volver al Listado</a>
+</body>
+</html>
