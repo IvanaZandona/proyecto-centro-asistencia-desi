@@ -6,13 +6,16 @@
     <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <body>
+	<div class="starter-template ">
 	<h1>Gestión de Familias</h1>
 	    <ul>
 	        <li><a th:href="@{/familiasMenu/alta}">Dar de Alta una Familia</a></li>
-	        <li><a th:href="@{/familiasBuscar/listado}">Listar Familias</a></li>
+			<li><a th:href="@{/familiasBuscar}">Listar Familias</a></li>
 	    </ul>
-	    <div class="footer">
-	        <a th:href="@{/}">← Volver al Menú Principal</a>
-	    </div>
+		<hr/>
+	</div>
+	<div class="footer">
+		  <a class="navegacion" th:href="@{/}">← Volver al Menú Principal</a>
+	</div>
 </body>
 </html>

@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.example.demo.entidades.Preparacion;
 import com.example.demo.excepciones.Excepcion;
-//import com.example.demo.presentacion.PreparacionBuscarForm;
+import com.example.demo.presentacion.PreparacionBuscarForm;
 
 public interface PreparacionService {
 
@@ -14,7 +14,7 @@ public interface PreparacionService {
 
 	Preparacion getById(Long id); 
 	
-	//List<Preparacion> filter(PreparacionBuscarForm form) throws Excepcion;
+	List<Preparacion> filter(PreparacionBuscarForm form) throws Excepcion;
 
 	void deleteById(Long id);
 

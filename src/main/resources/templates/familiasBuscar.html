@@ -8,24 +8,39 @@
 
 
 <body>
-	<h1>Buscar Familia</h1>
+	<h2>Buscar Familia</h2>
 
-	<form th:action="@{/familiasBuscar}" th:object="${formBean}" method="post">
+	<form th:action="@{/familiasMenu/listado}" th:object="${buscarFormBean}" method="get">
+	
+		<label for="nroFamilia">Nro Familia:</label>
+		    <input type="number" th:field="*{nroFamilia}" min="1"/>
+		<br/><br/>	
 	    <label for="nombre">Nombre:</label>
-	    <input type="text" th:field="*{nombre}" />
-	    <br/>
-	    <button type="submit" name="action" value="actionBuscar">Buscar</button>
-	    <button type="submit" name="action" value="actionRegistrar">Registrar nueva familia</button>
-	    <button type="submit" name="action" value="actionCancelar">Cancelar</button>
+	    	<input type="text" th:field="*{nombre}" />
+				
+	    <br/><br/>
+		<button class="botones" type="submit" name="action" value="actionBuscar">Buscar</button>
+		<button class="botones" type="submit" name="action" value="actionCancelar">Cancelar</button>
+
 	</form>
 
-	<h2>Listado de Familias</h2>
+	<div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
+	<div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+	
+	<tbody th:if="${#lists.isEmpty(familias)}">
+	   <tr><td colspan="4">No hay familias registradas</td></tr>
+	</tbody>
+
+	
+	<h1>Listado de Familias</h1>
 	<table border="1">
 	    <thead>
 	        <tr>
 	            <th>Nro Familia</th>
 	            <th>Nombre</th>
 	            <th>Fecha Registro</th>
+				<th>Fecha Última Asistencia</th>
+				<th>Cantidad Integrantes Activos</th>
 	            <th>Acciones</th>
 	        </tr>
 	    </thead>
@@ -34,12 +49,28 @@
 	            <td th:text="${familia.nroFamilia}"></td>
 	            <td th:text="${familia.nombre}"></td>
 	            <td th:text="${familia.fechaRegistro}"></td>
+				<td th:text="${mapaUltimaAsistencia != null and mapaUltimaAsistencia[familia.nroFamilia] != null} ? 
+				               ${mapaUltimaAsistencia[familia.nroFamilia]} : '-'"></td>
+							   
+				<td th:text="${integrantesActivos != null and familia.nroFamilia != null ? integrantesActivos[familia.nroFamilia] : 0}"></td>
+				
 	            <td>
-	                <a th:href="@{/familias/editar/{id}(id=${familia.nroFamilia})}">Editar</a> |
-	                <a th:href="@{/familias/eliminar/{id}(id=${familia.nroFamilia})}">Eliminar</a>
+	                <a class="navegacion" th:href="@{/familiasMenu/editar/{nroFamilia}(nroFamilia=${familia.nroFamilia})}">Editar</a> |
+	                <a class="navegacion" th:href="@{/familiasMenu/delete/{nroFamilia}(nroFamilia=${familia.nroFamilia})}" 
+										  onclick="return confirm('¿Estás segura/o de que querés eliminar esta familia?');">Eliminar</a>
 	            </td>
 	        </tr>
 	    </tbody>
 	</table>
+	
+	<br/>
+		<hr/><br/>
+		<a th:href="@{/familiasMenu/alta}">
+		    <button class="botones" type="button">Registrar nueva familia</button>
+		</a>
+		<br/><br/>
+	
+	<hr/><br/>
+	<a class="navegacion" th:href="@{/familiasMenu}">← Volver al Menú</a>
 </body>
 </html>

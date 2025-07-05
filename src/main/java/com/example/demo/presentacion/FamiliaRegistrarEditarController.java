@@ -2,11 +2,15 @@ package com.example.demo.presentacion;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.UnexpectedRollbackException;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entidades.Asistido;
 import com.example.demo.entidades.Familia;
@@ -29,7 +34,6 @@ import com.example.demo.servicios.FamiliaService;
 
 import jakarta.validation.Valid;
 
-//temporal
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +43,7 @@ import org.slf4j.LoggerFactory;
 @SessionAttributes("formBean")
 public class FamiliaRegistrarEditarController {
 
-	//temporal para ver mensajes en consola
+	// para ver mensajes en consola
 	 private static final Logger logger = LoggerFactory.getLogger(FamiliaRegistrarEditarController.class);
 	
 	@Autowired
@@ -72,28 +76,72 @@ public class FamiliaRegistrarEditarController {
 	 }
 	
 	@RequestMapping(value = "/listado", method = RequestMethod.GET)
-    public String listarFamilias(Model modelo) {
-        List<Familia> familias = familiaService.findAll();
+    public String listarFamilias(@RequestParam(value = "nroFamilia", required = false) Integer nroFamilia,
+            					@RequestParam(value = "nombre", required = false) String nombre, 
+            					Model modelo) {
+		modelo.addAttribute("buscarFormBean", new FamiliaBuscarForm());
+		
+		List<Familia> familias = familiaService.buscarPorFiltros(nroFamilia, nombre);
         modelo.addAttribute("familias", familias);
+        
+        Map<Integer, LocalDate> mapa = familiaService.obtenerUltimaAsistenciaPorFamilia();
+        if (mapa == null) {
+            mapa = new HashMap<>();
+        }
+        modelo.addAttribute("mapaUltimaAsistencia", mapa);
+        
+        Map<Integer, Long> integrantesActivos = new HashMap<>();
+        for (Familia familia : familias) {
+            long cantidad = familia.getAsistidos().stream()
+                .filter(a -> !a.isEliminado())
+                .count();
+            integrantesActivos.put(familia.getNroFamilia(), cantidad);
+        }
+        modelo.addAttribute("integrantesActivos", integrantesActivos);
+
         return "familiasBuscar";
     }
 
 	@RequestMapping(value = "/editar/{nroFamilia}", method = RequestMethod.GET)
     public String preparaFormEdicion(Model modelo, @PathVariable("nroFamilia") Integer nroFamilia) {
-        Familia familia = familiaService.getByNroFamilia(nroFamilia);
-        modelo.addAttribute("formBean", new FamiliaForm(familia));
-        return "familiaEditar";
+		Familia familia = familiaService.getByNroFamilia(nroFamilia);
+	    if (familia == null) {
+	        modelo.addAttribute("error", "Familia no encontrada.");
+	        return "redirect:/familiasMenu/listado";
+	    }
+	    FamiliaForm formBean = new FamiliaForm(familia);
+	    modelo.addAttribute("formBean", formBean);
+	    return "familiaEditar";
     }
 	
 	@RequestMapping(value = "/delete/{nroFamilia}", method = RequestMethod.GET)
-    public String delete(@PathVariable("nroFamilia") Integer nroFamilia) {
-        familiaService.deleteByNroFamilia(nroFamilia);
-        return "redirect:/familiasMenu/listado";
-    }
+	public String eliminarFamilia(@PathVariable("nroFamilia") Integer nroFamilia, RedirectAttributes redirectAttrs) {
+	    Familia familia = familiaService.getByNroFamilia(nroFamilia);
+	    if (familia != null) {
+	        familia.setEliminado(true);
+	        try {
+	            familiaService.save(familia);
+	            redirectAttrs.addFlashAttribute("mensaje", "Familia dada de baja correctamente.");
+	        } catch (Excepcion e) {
+	            redirectAttrs.addFlashAttribute("error", "Error al eliminar la familia: " + e.getMessage());
+	        }
+	    } else {
+	        redirectAttrs.addFlashAttribute("error", "Familia no encontrada.");
+	    }
+	    return "redirect:/familiasMenu/listado";
+	}
+
 	
 	@RequestMapping(value = "/agregar-integrante", method = RequestMethod.POST)
 	public String agregarIntegrante(@ModelAttribute("formBean") FamiliaForm formBean,
 	                                BindingResult result, ModelMap modelo) {
+		
+		if (result.hasErrors()) {
+	        // No agregues el integrante si hay errores de validación
+	        modelo.addAttribute("formBean", formBean);
+	        return "familiaAlta";
+	    }
+		
 	    // Validación manual de campos del nuevo integrante 
 	    AsistidoForm nuevo = formBean.getNuevoIntegrante();
 	    if (nuevo != null && nuevo.getDni() != null) {
@@ -118,16 +166,10 @@ public class FamiliaRegistrarEditarController {
 	public String submitAlta(@ModelAttribute("formBean") @Valid FamiliaForm formBean,
 	                         BindingResult result, ModelMap modelo, SessionStatus status) {
 	    
-		//temporallllllllll
 		logger.info("🔁 Se ejecutó submitAlta");
         logger.info("Nombre familia: {}", formBean.getNombre());
         logger.info("Cantidad integrantes: {}", formBean.getIntegrantes().size());
-        
-		
-		if (result.hasErrors()) {
-	        return "familiaAlta";
-	    }
-	    
+        	    
 	    try {
 	        Familia familia = formBean.toPojo();
 	        familia.setFechaRegistro(LocalDate.now());
@@ -144,13 +186,16 @@ public class FamiliaRegistrarEditarController {
 	        status.setComplete(); // borra formBean de sesión
 	        return "redirect:/familiasMenu/listado";
 
-	    } catch (Exception e) {
-	        e.printStackTrace(); // muestra error completo en consola
-	        result.addError(new ObjectError("globalError", "Error al guardar: " + e.getMessage()));
+	    } catch (Excepcion e) {
+	        if ("dni_duplicado".equals(e.getCodigo()) || "validacion".equals(e.getCodigo())) {
+	            result.reject("globalError", e.getMessage());
+	        } else {
+	            result.reject("globalError", "Limpie los campos e intente nuevamente. Error inesperado al guardar: " + e.getMessage());
+	        }
+	        modelo.addAttribute("formBean", formBean);
 	        return "familiaAlta";
 	    }
 	}
-
 	
 	@RequestMapping(value = "/editar", method = RequestMethod.POST)
     public String submitEdicion(@ModelAttribute("formBean") @Valid FamiliaForm formBean,
@@ -170,5 +215,34 @@ public class FamiliaRegistrarEditarController {
         }
     }
 	
+	@RequestMapping(value = "/editar/agregar-integrante", method = RequestMethod.POST)
+	public String agregarIntegranteEnEdicion(@ModelAttribute("formBean") FamiliaForm formBean,
+	                                         BindingResult result, ModelMap modelo) {
+	    
+	    AsistidoForm nuevo = formBean.getNuevoIntegrante();
+
+	    if (nuevo != null && nuevo.getDni() != null) {
+	        boolean dniYaExiste = formBean.getIntegrantes().stream()
+	            .anyMatch(i -> i.getDni() != null && i.getDni().equals(nuevo.getDni()));
+	        
+	        if (dniYaExiste) {
+	            result.rejectValue("nuevoIntegrante.dni", "dni.repetido", "Este DNI ya fue ingresado.");
+	            return "familiaEditar";
+	        }
+
+	        formBean.getIntegrantes().add(nuevo);
+	        formBean.setNuevoIntegrante(new AsistidoForm());
+	    }
+
+	    modelo.addAttribute("formBean", formBean);
+	    return "familiaEditar";
+	}
+
+	@RequestMapping(value = "/alta/limpiar", method = RequestMethod.GET)
+	public String limpiarYVolverAlta(SessionStatus status) {
+	    status.setComplete(); //limpiamos el atributo de sesión
+	    return "redirect:/familiasMenu/alta"; // redirige al formulario vacío
+	}
+
 	
 }

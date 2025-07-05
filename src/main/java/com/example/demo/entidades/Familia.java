@@ -26,15 +26,19 @@ public class Familia {
 	@OneToMany(mappedBy = "familia", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Asistido> asistidos = new ArrayList<>(); // Relación con Asistido
 	
+	@Column(name = "eliminado")
+	private boolean eliminado = false;
+	
 	public Familia() {
 	    this.fechaRegistro = LocalDate.now(); // 
 	}
 
-	public Familia(Integer nroFamilia, String nombre, LocalDate fechaRegistro) {
+	public Familia(Integer nroFamilia, String nombre, LocalDate fechaRegistro, boolean eliminado) {
 		this.setNroFamilia(nroFamilia);
 		this.setNombre(nombre);
 		//this.setFechaRegistro(fechaRegistro);
 		this.fechaRegistro = LocalDate.now(); // Valor por defecto
+		this.eliminado = eliminado;
 	}
 
 	public Integer getNroFamilia() {
@@ -68,4 +72,12 @@ public class Familia {
 	    this.asistidos = asistidos;
 	}
 
+	public boolean isEliminado() {
+	    return eliminado;
+	}
+
+	public void setEliminado(boolean eliminado) {
+	    this.eliminado = eliminado;
+	}
+	
 }

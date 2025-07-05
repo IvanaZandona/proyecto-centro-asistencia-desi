@@ -1,6 +1,9 @@
 package com.example.demo.presentacion;
 
+import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,14 +17,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.example.demo.entidades.Familia;
 import com.example.demo.servicios.FamiliaService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/familiasBuscar")
+@SessionAttributes("buscarFormBean") 
 public class FamiliaBuscarController {
 
 	@Autowired
@@ -35,39 +44,60 @@ public class FamiliaBuscarController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String preparaForm(Model modelo) {
 		FamiliaBuscarForm form = new FamiliaBuscarForm();
-		modelo.addAttribute("formBean", form);
-		modelo.addAttribute("familias", familiaService.getAll()); // muestra todo inicialmente
-		return "familiasBuscar";
+	    modelo.addAttribute("buscarFormBean", form);
+
+	    // Traer familias con asistidos
+	    List<Familia> familias = familiaService.buscarPorFiltros(null, null);
+	    modelo.addAttribute("familias", familias);
+
+	    // Agregar mapa de ultima asistencia
+	    Map<Integer, LocalDate> mapa = familiaService.obtenerUltimaAsistenciaPorFamilia();
+	    if (mapa == null) {
+	        mapa = new HashMap<>();
+	    }
+	    modelo.addAttribute("mapaUltimaAsistencia", mapa);
+
+	    // Calcular integrantes activos
+	    Map<Integer, Long> integrantesActivos = new HashMap<>();
+	    for (Familia familia : familias) {
+	        long cantidad = familia.getAsistidos().stream()
+	            .filter(a -> !a.isEliminado())
+	            .count();
+	        integrantesActivos.put(familia.getNroFamilia(), cantidad);
+	    }
+	    modelo.addAttribute("integrantesActivos", integrantesActivos);
+
+	    return "familiasBuscar";
 	}
 	
-	//@GetMapping("/familias")
-	/*public String listar(Model modelo) {
-	    modelo.addAttribute("familias", familiaService.getAll());
-	    return "familiasBuscar"; //tu HTML
-	}*/
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String submit(@ModelAttribute("formBean") @Valid FamiliaBuscarForm formBean, BindingResult result,
-						 ModelMap modelo, @RequestParam String action) {
+	public String submit(@ModelAttribute("buscarFormBean") @Valid FamiliaBuscarForm formBean,
+						 BindingResult result,
+						 ModelMap modelo,
+						 @RequestParam String action,
+						 SessionStatus status) {
 
-		if (action.equals("actionBuscar")) {
-			try {
-				List<Familia> familias = familiaService.filter(formBean.getNombre());
-				modelo.addAttribute("familias", familias); // reemplaza resultados por familias
-			} catch (Exception e) {
-				result.addError(new ObjectError("globalError", e.getMessage()));
-			}
-			modelo.addAttribute("formBean", formBean);
-			return "familiasBuscar";
+		switch (action) {
+        case "actionBuscar":
+            try {
+                List<Familia> familias = familiaService.buscarPorFiltros(formBean.getNroFamilia(), formBean.getNombre());
+                modelo.addAttribute("familias", familias);
+            } catch (Exception e) {
+                result.addError(new ObjectError("globalError", "Error al buscar: " + e.getMessage()));
+            }
+            modelo.addAttribute("buscarFormBean", formBean);
+            return "familiasBuscar";
+
+        case "actionRegistrar":
+            return "redirect:/familiasMenu/alta";
+
+        case "actionCancelar":
+        	status.setComplete();
+        	return "redirect:/familiasBuscar";
+        	
+        default:
+            return "redirect:/familiasBuscar";
 		}
-		else if (action.equals("actionRegistrar")) {
-			return "redirect:/familiaEditar"; // aún no creado
-		}
-		else if (action.equals("actionCancelar")) {
-			return "redirect:/";
-		}
-		
-		return "redirect:/";
 	}
-	
 }

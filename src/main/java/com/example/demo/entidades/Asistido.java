@@ -15,14 +15,18 @@ public class Asistido extends Persona {
     @JoinColumn(name = "familia_nro_familia", nullable = false)
     private Familia familia; // relación con familia
 	
+	@Column(name = "eliminado")
+	private boolean eliminado = false;
+	
 	public Asistido() {
 	    // Constructor vacío requerido por JPA
 	}
 
 	public Asistido(String nombre, String apellido, String domicilio, String ocupacion, 
-			Integer dni, LocalDate fechaNacimiento, LocalDate fechaRegistro) {
+			Integer dni, LocalDate fechaNacimiento, LocalDate fechaRegistro, boolean eliminado) {
 			super(nombre, apellido, domicilio, ocupacion, dni, fechaNacimiento);
 			this.fechaRegistro = fechaRegistro;
+			this.eliminado = eliminado;
 	}
 	
 	public LocalDate getFechaRegistro() {
@@ -36,5 +40,12 @@ public class Asistido extends Persona {
     }
     public void setFamilia(Familia familia) {
         this.familia = familia;
+    }
+    public boolean isEliminado() {
+        return eliminado;
+    }
+
+    public void setEliminado(boolean eliminado) {
+        this.eliminado = eliminado;
     }
 }

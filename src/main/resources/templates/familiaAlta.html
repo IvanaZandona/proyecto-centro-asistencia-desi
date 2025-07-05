@@ -18,8 +18,16 @@
 				
 	        <label for="nombre">Nombre de la Familia:</label>
 	        <input type="text" th:field="*{nombre}" required />
+			<div th:if="${#fields.hasErrors('nombre')}" style="color: red;">
+			    <p th:errors="*{nombre}"></p>
+			</div>
 	        <br/><br/>
 
+			<a th:href="@{/familiasMenu/alta/limpiar}">
+			  <button class="botones" type="button">Limpiar todos los campos</button>
+			</a>
+			<br/>
+						
 	        <!-- Mostramos lista de integrantes ya agregados -->
 	        <h2>Integrantes cargados</h2>
 			<div th:if="${formBean.integrantes != null and !formBean.integrantes.isEmpty()}">
@@ -31,7 +39,10 @@
 			                <p><strong>Apellido:</strong> <span th:text="${integrante.apellido}"></span></p>
 			                <p><strong>Nombre:</strong> <span th:text="${integrante.nombre}"></span></p>
 			                <p><strong>Domicilio:</strong> <span th:text="${integrante.domicilio}"></span></p>
-			                <p><strong>Fecha de Nacimiento:</strong> <span th:text="${integrante.fechaNacimiento}"></span></p>
+			                <p><strong>Fecha de Nacimiento:</strong>
+								<span th:if="${integrante.fechaNacimiento != null}" th:text="${integrante.fechaNacimiento}"></span>
+								<span th:if="${integrante.fechaNacimiento == null}">Sin fecha</span>
+							</p>
 			                <p><strong>Ocupación:</strong> <span th:text="${integrante.ocupacion}"></span></p>
 			            </fieldset>
 			            <br/>
@@ -45,7 +56,7 @@
 			
 	        <!-- Botón para guardar toda la familia -->
 	        <br/>
-	        <button type="submit">Guardar Familia</button>
+	        <button class="botones" type="submit">Guardar Familia</button>
 	    </form>
 
 	    <hr/>
@@ -53,46 +64,67 @@
 	    <!-- Formulario para agregar un nuevo integrante -->
 	    <h2>Agregar Nuevo Integrante</h2>
 	    <form th:action="@{/familiasMenu/agregar-integrante}" th:object="${formBean}" method="post">
+			
 	        <label>DNI:</label>
-			<input type="number" th:field="*{nuevoIntegrante.dni}"
+			<input type="number" th:field="*{nuevoIntegrante.dni}" min="1" step="1"
 			       th:classappend="${#fields.hasErrors('nuevoIntegrante.dni')} ? 'error' : ''" required />
-	        <br/>
 			<div th:if="${#fields.hasErrors('nuevoIntegrante.dni')}" style="color: red;">
-			    <p th:errors="*{nuevoIntegrante.dni}"></p>
-			</div>
-
+			   		<p th:errors="*{nuevoIntegrante.dni}"></p>
+				</div>
+			<br/>
+			
 	        <label>Apellido:</label>
 	        <input type="text" th:field="*{nuevoIntegrante.apellido}" required />
+			<div th:if="${#fields.hasErrors('nuevoIntegrante.apellido')}" style="color: red;">
+			        <p th:errors="*{nuevoIntegrante.apellido}"></p>
+			    </div>
 	        <br/>
 
 	        <label>Nombre:</label>
 	        <input type="text" th:field="*{nuevoIntegrante.nombre}" required />
+			<div th:if="${#fields.hasErrors('nuevoIntegrante.nombre')}" style="color: red;">
+			        <p th:errors="*{nuevoIntegrante.nombre}"></p>
+			    </div>
 	        <br/>
 
 	        <label>Domicilio:</label>
 	        <input type="text" th:field="*{nuevoIntegrante.domicilio}" required />
+			<div th:if="${#fields.hasErrors('nuevoIntegrante.domicilio')}" style="color: red;">
+			        <p th:errors="*{nuevoIntegrante.domicilio}"></p>
+			    </div>
 	        <br/>
 
-	        <label>Fecha de Nacimiento:</label>
-	        <input type="date" th:field="*{nuevoIntegrante.fechaNacimiento}" required />
-	        <br/>
+			<label>Fecha de Nacimiento:</label>
+			    <input type="date" th:field="*{nuevoIntegrante.fechaNacimiento}" max="2025-12-31"
+			           th:classappend="${#fields.hasErrors('nuevoIntegrante.fechaNacimiento')} ? 'error' : ''" required />
+			    <div th:if="${#fields.hasErrors('nuevoIntegrante.fechaNacimiento')}" style="color: red;">
+			        <p th:errors="*{nuevoIntegrante.fechaNacimiento}"></p>
+			    </div>
+			    <br/>
 
 	        <label>Ocupación:</label>
 	        <select th:field="*{nuevoIntegrante.ocupacion}" required>
 	            <option value="">Seleccione...</option>
-	            <option value="desempleado">Desempleado</option>
-	            <option value="empleado">Empleado</option>
-	            <option value="estudiante">Estudiante</option>
-	            <option value="ama de casa">Ama de casa</option>
-	            <option value="otro">Otro</option>
+	            <option value="Desempleado">Desempleado</option>
+	            <option value="Empleado">Empleado</option>
+	            <option value="Estudiante">Estudiante</option>
+	            <option value="Ama de casa">Ama de casa</option>
+	            <option value="Otro">Otro</option>
 	        </select>
+			<div th:if="${#fields.hasErrors('nuevoIntegrante.ocupacion')}" style="color: red;">
+			        <p th:errors="*{nuevoIntegrante.ocupacion}"></p>
+			    </div>
 	        <br/><br/>
 
-	        <button type="submit">Agregar Integrante</button>
+	        <button class="botones" type="submit">Agregar Integrante</button>
 	    </form>
 
+
 	    <br/>
-		
-	    <a th:href="@{/familiasMenu}">← Volver al Menú</a>
+		<hr/><br/>
+		<a class="navegacion" th:href="@{/familiasBuscar}">Ir a Listado de Familias →</a>
+		<br/><br/>
+		<a class="navegacion" th:href="@{/familiasMenu}">← Volver al Menú</a>
+
 </body>
 </html>
