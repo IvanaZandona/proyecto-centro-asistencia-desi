@@ -23,6 +23,9 @@ public class Receta {
 
     @Column(name = "descripcion")
     private String descripcion;
+    
+    @Column (name = "activa")
+    private Boolean activa =  true;
     	
 	// Relación con ItemReceta (uno a muchos)
     @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -36,9 +39,10 @@ public class Receta {
 		
 	}
 	
-	public Receta(String nombre, String descripcion) {
+	public Receta(String nombre, String descripcion, Boolean activa) {
 		this.nombre = nombre;
 		this.descripcion = descripcion;
+		this.activa = activa;
 	}
 	
 
@@ -65,11 +69,6 @@ public class Receta {
 		this.id = id;
 	}
 	
-	@Override
-	public String toString() {
-		return String.format(descripcion, null);
-	}
-	
 	public List<ItemReceta> getItems() {
         return items;
     }
@@ -85,5 +84,6 @@ public class Receta {
     public void setPreparaciones(List<Preparacion> preparaciones) {
         this.preparaciones = preparaciones;
     }
+    
 }
 
