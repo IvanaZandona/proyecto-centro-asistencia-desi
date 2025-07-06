@@ -88,7 +88,7 @@ public class Receta {
 	public void setActiva(boolean activa) {
 		this.activa =  activa;
 	}
-	public boolean isActiva() { 
+	public Boolean isActiva() { 
 		return activa; 
 	}
 

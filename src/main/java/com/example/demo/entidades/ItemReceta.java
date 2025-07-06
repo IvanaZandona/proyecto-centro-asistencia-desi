@@ -24,14 +24,18 @@ public class ItemReceta {
 
     @Column(name = "calorias")
     private Integer calorias;
+    
+    @Column(name = "activa")
+    private Boolean activa = true;
 	
 	public ItemReceta() {
 	    // Constructor vacío requerido por JPA
 	}
 	
-	public ItemReceta(Integer cantidad, Integer calorias) {
+	public ItemReceta(Integer cantidad, Integer calorias, Boolean activa) {
 		this.cantidad = cantidad;
 		this.calorias = calorias;
+		this.activa = activa;
 	}
 	
 	public Integer getCantidad() {
@@ -48,6 +52,9 @@ public class ItemReceta {
    
     public void setCalorias(Integer calorias) {
         this.calorias = calorias;
+    }
+    public void setActiva(Boolean activa) {
+    	this.activa = activa;
     }
 
 	public Long getId() {
@@ -72,6 +79,9 @@ public class ItemReceta {
 
     public void setIngrediente(Ingrediente ingrediente) {
         this.ingrediente = ingrediente;
+    }
+    public Boolean isActiva() {
+    	return activa;
     }
 	
 }

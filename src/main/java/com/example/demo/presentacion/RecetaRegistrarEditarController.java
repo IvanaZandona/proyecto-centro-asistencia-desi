@@ -4,6 +4,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entidades.ItemReceta;
 import com.example.demo.entidades.Preparacion;
@@ -75,11 +77,21 @@ public class RecetaRegistrarEditarController {
 	
 	@RequestMapping(value = "/editar/{id}", method = RequestMethod.GET)
 	public String mostratFormularioEditar(@PathVariable("id") Long id, Model modelo ) throws Excepcion {
-		Receta receta =  recetaService.getById(id);
-		modelo.addAttribute("receta", receta);
-		modelo.addAttribute("ingredientes", ingredienteService.getAll());
-		return "recetasEditar";
+	    Receta receta = recetaService.getById(id);
+
+	    // Filtrar solo los items activos
+	    receta.setItems(
+	        receta.getItems().stream()
+	            .filter(ItemReceta::isActiva)
+	            .collect(Collectors.toList())
+	    );
+
+	    modelo.addAttribute("receta", receta);
+	    modelo.addAttribute("ingredientes", ingredienteService.getAll());
+	    return "recetasEditar";
 	}
+
+
 	
 	@RequestMapping(value = "/editar", method = RequestMethod.POST)
 	public String procesarEdicion(@ModelAttribute("receta") Receta receta, Model modelo) {
@@ -102,5 +114,17 @@ public class RecetaRegistrarEditarController {
 			modelo.addAttribute("error", e.getMessage());
 			return "recetas/eliminar";
 		}
-	}	
+	}
+	@RequestMapping(value = "/eliminarItem/{idItem}", method = RequestMethod.GET)
+	public String eliminarItemReceta(@PathVariable("idItem") Long idItem, @RequestParam("recetaId") Long recetaId, RedirectAttributes redirectAttrs) {
+	    try {
+	        recetaService.deleteItemReceta(idItem);
+	        redirectAttrs.addFlashAttribute("success", "Ingrediente eliminado correctamente");
+	    } catch (Exception e) {
+	        redirectAttrs.addFlashAttribute("error", e.getMessage());
+	    }
+	    return "redirect:/recetasMenu/editar/" + recetaId;
+	}
+
+
 }

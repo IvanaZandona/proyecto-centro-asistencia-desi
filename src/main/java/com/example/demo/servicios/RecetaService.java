@@ -16,4 +16,6 @@ public interface RecetaService {
 
 	Receta getById(Long id) throws Excepcion;
 
+	void deleteItemReceta(Long id) throws Exception;
+
 }

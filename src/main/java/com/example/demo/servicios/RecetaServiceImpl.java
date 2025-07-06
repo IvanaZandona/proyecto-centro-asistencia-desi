@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.accesoDatos.IIngredienteRepo;
+import com.example.demo.accesoDatos.IItemRecetaRepo;
 import com.example.demo.accesoDatos.IRecetaRepo;
 import com.example.demo.entidades.Condimento;
 import com.example.demo.entidades.Ingrediente;
@@ -24,6 +25,10 @@ public class RecetaServiceImpl implements RecetaService {
     @Autowired
     private IIngredienteRepo ingredienteRepo;
 
+    @Autowired
+    private IItemRecetaRepo itemRecetaRepo;
+
+    
     @Override
     public Receta getById(Long id) throws Excepcion {
         return recetaRepo.findById(id)
@@ -97,6 +102,14 @@ public class RecetaServiceImpl implements RecetaService {
     @Override
     public List<Receta> getAll() {
         return recetaRepo.findByActivaTrue();
+    }
+    
+    public void deleteItemReceta(Long id) throws Exception {
+    	ItemReceta item = itemRecetaRepo.findById(id)
+    			.orElseThrow(() -> new Exception("Item de Receta no encontrado con ID: " + id));
+    	item.setActiva(false);
+    	itemRecetaRepo.save(item);
+    			
     }
 
 

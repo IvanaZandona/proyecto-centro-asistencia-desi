@@ -38,6 +38,7 @@
             <!-- Campo para las calorías de este ingrediente -->
             <label>Calorías:</label>
             <input type="number" th:field="*{items[__${iterStat.index}__].calorias}" min="0" required />
+			<a th:href="@{'/recetasMenu/eliminarItem/' + ${item.id} + '?recetaId=' + ${receta.id}}">Eliminar</a>
             <br/>
         </div>
 
