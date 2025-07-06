@@ -89,6 +89,9 @@ public class Receta {
 		// TODO Auto-generated method stub
 		
 	}
+	public boolean isActiva() { 
+		return activa; 
+	}
 
 	
     

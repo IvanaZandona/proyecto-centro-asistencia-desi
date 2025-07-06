@@ -18,7 +18,7 @@ public interface IRecetaRepo extends JpaRepository<Receta, Long> {
 	 
 	 boolean existsByNombre(String nombre);
 
-	 
+	List<Receta> findByActivaTrue();
 	
 	}
 

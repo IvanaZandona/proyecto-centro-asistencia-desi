@@ -11,7 +11,6 @@ import com.example.demo.accesoDatos.IRecetaRepo;
 import com.example.demo.entidades.Condimento;
 import com.example.demo.entidades.Ingrediente;
 import com.example.demo.entidades.ItemReceta;
-import com.example.demo.entidades.Preparacion;
 import com.example.demo.entidades.Producto;
 import com.example.demo.entidades.Receta;
 import com.example.demo.excepciones.Excepcion;
@@ -24,11 +23,6 @@ public class RecetaServiceImpl implements RecetaService {
 
     @Autowired
     private IIngredienteRepo ingredienteRepo;
-
-    @Override
-    public List<Receta> getAll() {
-        return recetaRepo.findAll();
-    }
 
     @Override
     public Receta getById(Long id) throws Excepcion {
@@ -99,6 +93,10 @@ public class RecetaServiceImpl implements RecetaService {
     // Método utilitario para listar ingredientes
     public List<Ingrediente> listarIngredientes() {
         return ingredienteRepo.findAll();
+    }
+    @Override
+    public List<Receta> getAll() {
+        return recetaRepo.findByActivaTrue();
     }
 
 
