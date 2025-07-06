@@ -24,7 +24,8 @@
 			    <input type="number" th:field="*{items[__${iterStat.index}__].cantidad}" min="1" step="1" placeholder="cantidad" />
 			    <input type="number" th:field="*{items[__${iterStat.index}__].calorias}" min="0" step="1"  placeholder="calorias"/>
 			</div>
-	        <button type="submit">Guardar</button>
+			<button type="submit" name="addItem">Agregar ingrediente</button>
+	        <button type="submit" name="saveRecipe">Guardar</button>
 	    </form>
 	    <a th:href="@{/recetasMenu}">← Volver al Menú</a>
 </body>
