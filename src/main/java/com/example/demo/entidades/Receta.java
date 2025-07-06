@@ -85,9 +85,8 @@ public class Receta {
         this.preparaciones = preparaciones;
     }
 
-	public void setActiva(boolean b) {
-		// TODO Auto-generated method stub
-		
+	public void setActiva(boolean activa) {
+		this.activa =  activa;
 	}
 	public boolean isActiva() { 
 		return activa; 
