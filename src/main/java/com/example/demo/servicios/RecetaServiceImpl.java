@@ -90,10 +90,10 @@ public class RecetaServiceImpl implements RecetaService {
 
     @Override
     public void deleteById(Long id) throws Excepcion {
-        if (!recetaRepo.existsById(id)) {
-            throw new Excepcion("Receta no encontrada para eliminar con ID: " + id);
-        }
-        recetaRepo.deleteById(id);
+        Receta receta = recetaRepo.findById(id)
+            .orElseThrow(() -> new Excepcion("Receta no encontrada para eliminar con ID: " + id));
+        receta.setActiva(false);
+        recetaRepo.save(receta);
     }
 
     // Método utilitario para listar ingredientes

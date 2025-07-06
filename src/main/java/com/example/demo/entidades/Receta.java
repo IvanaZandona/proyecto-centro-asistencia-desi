@@ -84,6 +84,13 @@ public class Receta {
     public void setPreparaciones(List<Preparacion> preparaciones) {
         this.preparaciones = preparaciones;
     }
+
+	public void setActiva(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
     
 }
 
