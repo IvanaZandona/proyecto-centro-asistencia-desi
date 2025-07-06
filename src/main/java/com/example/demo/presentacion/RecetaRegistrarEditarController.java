@@ -97,11 +97,10 @@ public class RecetaRegistrarEditarController {
 	public String eliminarReceta(@PathVariable("id") Long id, Model modelo) {
 		try {
 			recetaService.deleteById(id);
-			return "redirect:/recetasMenu/listar";
+			return "redirect:/recetasMenu/listado";
 		} catch (Exception e) {
 			modelo.addAttribute("error", e.getMessage());
 			return "recetas/eliminar";
 		}
 	}	
-
 }
