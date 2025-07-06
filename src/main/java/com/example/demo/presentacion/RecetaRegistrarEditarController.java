@@ -42,18 +42,24 @@ public class RecetaRegistrarEditarController {
 	
 	@RequestMapping(value ="/alta",method = RequestMethod.GET) //creo el metodo para MOSTRAR el formulario de alta de receta
 	public String mostrarFormularioAlta(Model modelo) {
-		modelo.addAttribute("receta", new Receta()); //agrega al modelo una receta
-		modelo.addAttribute("ingredientes", ingredienteService.getAll());//agrega al modelo una lista de todos los ingredientes disponibles
 		Receta receta = new Receta();
 		receta.setItems(new ArrayList<>());
-		for (int i = 0; i < 5; i++) { // Por ejemplo, 5 filas
-		    receta.getItems().add(new ItemReceta());
-		}
+		receta.getItems().add(new ItemReceta());	
 		modelo.addAttribute("receta", receta);
+		modelo.addAttribute("ingredientes", ingredienteService.getAll());
 		return "recetasAlta";	
 		}
 	
-	@RequestMapping(value = "/alta", method = RequestMethod.POST) //esto PROCESA el alta de la misma 
+	@RequestMapping(value = "/alta", method = RequestMethod.POST, params =  "addItem")
+	public String agregarIngrediente(@ModelAttribute("receta") Receta receta, Model modelo) {
+		receta.getItems().add(new ItemReceta());
+		modelo.addAttribute("receta", receta);
+		modelo.addAttribute("ingredientes", ingredienteService.getAll());
+		return "recetasAlta";
+		
+	}
+	
+	@RequestMapping(value = "/alta", method = RequestMethod.POST, params = "saveRecipe") //esto PROCESA el alta de la misma 
 	public String procesarAlta(@ModelAttribute("receta") Receta receta, Model modelo, RedirectAttributes redirectAttributes) {
 	    try {
 	        recetaService.save(receta);
