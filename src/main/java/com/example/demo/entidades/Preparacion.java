@@ -24,10 +24,14 @@ public class Preparacion {
 
     @Column(name = "fecha_coccion")
     private LocalDate fechaCoccion;
-	
+    
+    @Column(name = "activo")
+    private boolean activo = true;
+    
 	public Preparacion() {
 		
 	}
+	
 	public Preparacion(Integer totalRacionesPreparadas, Integer stockRacionesRestantes, LocalDate fechaCoccion) {
         this.totalRacionesPreparadas = totalRacionesPreparadas;
         this.stockRacionesRestantes = stockRacionesRestantes;
@@ -71,5 +75,13 @@ public class Preparacion {
 
     public void setReceta(Receta receta) {
         this.receta = receta;
+    }
+    
+    public void setActivo(boolean activo) {
+    	this.activo = activo;
+    }
+    
+    public boolean getActivo() {
+    	return activo;
     }
 }

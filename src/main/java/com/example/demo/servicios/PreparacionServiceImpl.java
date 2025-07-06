@@ -18,15 +18,19 @@ public class PreparacionServiceImpl implements PreparacionService {
 	
 	@Override
 	public List<Preparacion> getAll() {
+		return getAll(true);
+	}
+
+	@Override
+	public List<Preparacion> getAll(boolean estaActivo) {
+		if (estaActivo) {
+			return preparacionRepo.findAllActivo();
+		}
 		return preparacionRepo.findAll();
 	}
 
 	@Override
 	public void save(Preparacion preparacion) throws Excepcion {
-		// Validación de ejemplo: no guardar si nombre es vacío
-		/*if (preparacion.getId() == null) {
-			throw new Excepcion("El id es obligatorio.");
-		}*/
 		preparacionRepo.save(preparacion);
 	}
 
@@ -40,7 +44,19 @@ public class PreparacionServiceImpl implements PreparacionService {
 		if (filter.getId() == null && filter.getRecetaSeleccionada() == null) {
 			throw new Excepcion("Es necesario al menos un filtro");
 		} else {
-			return preparacionRepo.findByIdOrIdReceta(filter.getId(), filter.getRecetaSeleccionada());
+			if (filter.getId() != null) {
+				if (filter.getSoloActivo() == true) {
+					return List.of(preparacionRepo.findByIdActivo(filter.getId()));
+				} else {
+					return List.of(preparacionRepo.findById(filter.getId()).orElse(null));
+				}
+			} else {
+				if (filter.getSoloActivo() == true) {
+					return preparacionRepo.findByRecetaActivo(filter.getRecetaSeleccionada());
+				} else {
+					return preparacionRepo.findByReceta(filter.getRecetaSeleccionada());
+				}
+			}
 		}
 	}
 	

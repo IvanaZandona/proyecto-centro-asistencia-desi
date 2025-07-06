@@ -27,6 +27,14 @@
 			</select>
 		</td>
 		</tr>
+		<tr>
+			<td>
+				<label for="soloActivo">Excluir Eliminados:</label>
+			</td>
+			<td>
+				<input type="checkbox" id="soloActivo" th:field="*{soloActivo}" />
+			</td>
+		</tr>
 		</table>
 	    <br/>
 		<table class="botones">
@@ -51,15 +59,15 @@
 	        </tr>
 	    </thead>
 	    <tbody>
-	        <tr th:each="preparacion : ${preparaciones}">
+	        <tr th:each="preparacion : ${preparaciones}" th:style="${preparacion.activo} ? 'background-color:white;': 'background-color:lightcoral;'">
 	            <td th:text="${preparacion.id}"></td>
 				<td th:text="${preparacion.receta != null ? preparacion.receta.nombre : 'Sin receta'}"></td>
 				<td th:text="${preparacion.totalRacionesPreparadas}"></td>
 				<td th:text="${preparacion.stockRacionesRestantes}"></td>
 				<td th:text="${preparacion.fechaCoccion}"></td>
 	            <td>
-	                <a th:href="@{/preparaciones/editar/{id}(id=${preparacion.id})}">Editar</a> |
-	                <a th:href="@{/preparaciones/eliminar/{id}(id=${preparacion.id})}">Eliminar</a>
+	                <a th:href="@{/preparacionesMenu/editar/{id}(id=${preparacion.id})}">Editar</a> |
+	                <a th:href="@{/preparacionesMenu/eliminar/{id}(id=${preparacion.id})}">Eliminar</a>
 	            </td>
 	        </tr>
 	    </tbody>

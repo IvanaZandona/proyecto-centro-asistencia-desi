@@ -5,6 +5,7 @@ public class PreparacionBuscarForm {
 
 	private Long Id;
 	private Long recetaSeleccionada;
+	private boolean soloActivo = true;
 	
 	private List<Receta> recetas;
 
@@ -33,6 +34,14 @@ public class PreparacionBuscarForm {
 	
 	public void setRecetaSeleccionada(Long idreceta) {
 		this.recetaSeleccionada = idreceta;
+	}
+	
+	public void setSoloActivo(boolean activo) {
+		this.soloActivo = activo;
+	}
+	
+	public boolean getSoloActivo() {
+		return this.soloActivo;
 	}
 	
 }
