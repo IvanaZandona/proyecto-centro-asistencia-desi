@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface IRecetaRepo extends JpaRepository<Receta, Long> {
 	
 	
-	 List<Receta> findByNombre(String nombre);
+	 Optional<Receta> findByNombre(String nombre);
 	
 	 Optional<Receta> findOneByNombre(String nombre);
 	 

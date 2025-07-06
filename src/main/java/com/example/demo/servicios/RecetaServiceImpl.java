@@ -1,6 +1,7 @@
 package com.example.demo.servicios;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,9 +38,21 @@ public class RecetaServiceImpl implements RecetaService {
 
     @Override
     public void save(Receta receta) throws Exception {
-        if (receta.getNombre() == null || receta.getNombre().isBlank() || recetaRepo.existsByNombre(receta.getNombre())) {
-            throw new Exception("El nombre de la receta es obligatorio y no se debe repetir");
-        }
+    	
+    	List<ItemReceta> itemsValidos = receta.getItems().stream()
+    			.filter(item -> item.getIngrediente() != null && item.getIngrediente().getId() != null
+    			&& item.getCantidad() != null && item.getCantidad() > 0 
+    			&& item.getCalorias() != null && item.getCalorias() >= 0)
+    			.toList();
+    	receta.setItems(itemsValidos);
+    	
+    	Optional<Receta> existente = recetaRepo.findByNombre(receta.getNombre());
+    	if (receta.getId() == null && existente.isPresent()) {
+    	    throw new Exception("El nombre de la receta ya existe");
+    	}
+    	if (receta.getId() != null && existente.isPresent() && !existente.get().getId().equals(receta.getId())) {
+    	    throw new Exception("El nombre de la receta ya existe");
+    	}
         if (receta.getDescripcion() == null || receta.getDescripcion().isBlank()) {
             throw new Exception("La descripcion de la receta es obligatoria");
         }

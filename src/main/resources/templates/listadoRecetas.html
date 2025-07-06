@@ -1,31 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<title>Listado de Recetas</title>
-	    <link rel="stylesheet" th:href="@{/css/main.css}" />
-	</head>
-	<body>
-		<h1>Listado de Recetas</h1>
-		<table>
-			<tr>
-				<th>Id</th>
-				<th>Nombre</th>
-				<th>Descripcion</th>
-			</tr>
-			<tr th:each="receta : ${recetas}">
-				<td th:text="${receta.id}"></td> 
-				<td th:text="${receta.nombre}"></td>
-				<td th:text="${receta.descripcion}"></td>>
-				<td><a th:href="@{'/recetasMenu/editar/' + ${receta.id}}">Editar</a></td>
-				<td><a th:href="@{'/recetasMenu/eliminar/' + ${receta.id}}">Eliminar</a></td>
-			</tr>
-		</table>
-		<div class="footer">
-		        <a th:href="@{/}">← Volver al Menú Principal</a>
-		</div>
-		<div class="footer">
-			<a th:href="@{/recetasMenu}">← Volver al Menú de Recetas</a>
-		</div>
-	</body>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Listado de Recetas</title>
+	<link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+
+<body>
+	<h1>Listado de Recetas</h1>
+	<div th:if="${#lists.isEmpty(recetas)}" style="color:red; font-weight:bold;">
+		No tiene recetas cargadas. Por favor, cargue una.
+	</div>
+	<table th:if="${not #lists.isEmpty(recetas)}">
+		<tr>
+			<th>Id</th>
+			<th>Nombre</th>
+			<th>Descripcion</th>
+			<th>Ingredientes</th>
+			<th>Acciones</th>
+		</tr>
+		<tr th:each="receta : ${recetas}">
+			<td th:text="${receta.id}"></td>
+			<td th:text="${receta.nombre}"></td>
+			<td th:text="${receta.descripcion}"></td>
+			<td>
+				<ul>
+					<li th:each="item : ${receta.items}" th:text="${item.ingrediente.nombre}">
+					</li>
+				</ul>
+			</td>
+			<td>
+				<ul>
+				<li><a th:href="@{'/recetasMenu/editar/' + ${receta.id}}">Editar</a></li>
+				<li><a th:href="@{'/recetasMenu/eliminar/' + ${receta.id}}">Eliminar</a></li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+	<div class="footer">
+		<a th:href="@{/}">← Volver al Menú Principal</a>
+	</div>
+	<div class="footer">
+		<a th:href="@{/recetasMenu}">← Volver al Menú de Recetas</a>
+	</div>
+</body>
+
 </html>

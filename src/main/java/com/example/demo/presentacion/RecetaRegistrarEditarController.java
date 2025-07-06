@@ -44,7 +44,9 @@ public class RecetaRegistrarEditarController {
 		modelo.addAttribute("ingredientes", ingredienteService.getAll());//agrega al modelo una lista de todos los ingredientes disponibles
 		Receta receta = new Receta();
 		receta.setItems(new ArrayList<>());
-		receta.getItems().add(new ItemReceta()); 
+		for (int i = 0; i < 5; i++) { // Por ejemplo, 5 filas
+		    receta.getItems().add(new ItemReceta());
+		}
 		modelo.addAttribute("receta", receta);
 		return "recetasAlta";	
 		}
@@ -83,7 +85,7 @@ public class RecetaRegistrarEditarController {
 	public String procesarEdicion(@ModelAttribute("receta") Receta receta, Model modelo) {
 		try {
 			recetaService.save(receta); //
-			return "redirect:/recetasMenu/editar";
+			return "redirect:/recetasMenu/listado";
 		} catch (Exception e) {
 			modelo.addAttribute("errror", e.getMessage());
 			modelo.addAttribute("ingredientes", ingredienteService.getAll());
