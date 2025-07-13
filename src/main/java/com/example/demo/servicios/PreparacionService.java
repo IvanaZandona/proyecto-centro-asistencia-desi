@@ -10,6 +10,8 @@ public interface PreparacionService {
 
 	List<Preparacion> getAll();
 	
+	List<Preparacion> getAll(boolean estaActivo);
+	
 	void save(Preparacion preparacion) throws Excepcion;
 
 	Preparacion getById(Long id); 

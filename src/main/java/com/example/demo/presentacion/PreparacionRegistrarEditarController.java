@@ -55,13 +55,13 @@ public class PreparacionRegistrarEditarController {
 	    return "preparacionesEditar";
 	 }
 	
-	/*@RequestMapping(value = "/listado", method = RequestMethod.GET)
+	@RequestMapping(value = "/listado", method = RequestMethod.GET)
     public String listarPreparaciones(Model modelo) {
-        List<Preparacion> preparaciones = preparacionService.findAll();
+        List<Preparacion> preparaciones = preparacionService.getAll(true);
         modelo.addAttribute("formBean", new PreparacionBuscarForm());
         modelo.addAttribute("preparaciones", preparaciones);
         return "listadoPreparaciones";
-    }*/
+    }
 
 	@RequestMapping(value = "/editar/{Id}", method = RequestMethod.GET)
     public String preparaFormEdicion(Model modelo, @PathVariable("Id") Long Id) {
@@ -71,7 +71,7 @@ public class PreparacionRegistrarEditarController {
         return "preparacionesEditar";
     }
 	
-	@RequestMapping(value = "/delete/{Id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/eliminar/{Id}", method = RequestMethod.GET)
     public String delete(@PathVariable("Id") Long Id) {
         preparacionService.deleteById(Id);
         return "redirect:/preparacionesMenu/listado";

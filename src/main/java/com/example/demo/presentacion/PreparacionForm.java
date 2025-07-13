@@ -23,6 +23,8 @@ public class PreparacionForm {
     private Long  idreceta; 
     
     private String nombreReceta;
+    
+    private boolean activo;
 
 	public PreparacionForm() {
 		super();
@@ -36,6 +38,7 @@ public class PreparacionForm {
 		this.fechaCoccion = p.getFechaCoccion();
 		this.idreceta = p.getReceta().getId();
 		this.nombreReceta = p.getReceta().getNombre();
+		this.activo = p.getActivo();
 	}
 
 	public Preparacion toPojo() {
@@ -44,6 +47,7 @@ public class PreparacionForm {
 		preparacion.setTotalRacionesPreparadas(total_raciones_preparadas);
 		preparacion.setStockRacionesRestantes(stock_raciones_restantes);
 		preparacion.setFechaCoccion(fechaCoccion);
+		preparacion.setActivo(activo);
         return preparacion;
 	}
 
@@ -93,5 +97,13 @@ public class PreparacionForm {
 	
 	public void setnombreReceta(String nombreReceta) {
 		this.nombreReceta = nombreReceta;
+	}
+	
+	public boolean getActivo() {
+		return this.activo;
+	}
+	
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 }

@@ -36,21 +36,22 @@ public class PreparacionBuscarController {
 	    return "index"; // Renderiza src/main/resources/templates/index.html
 	}*/
 
-	/*@RequestMapping(method = RequestMethod.GET)
+	@RequestMapping(method = RequestMethod.GET)
 	public String preparacionForm(Model modelo) {
 		PreparacionBuscarForm form = new PreparacionBuscarForm();
 		form.setRecetas(recetaService.getAll());
+		form.setSoloActivo(true);
 		modelo.addAttribute("formBean", form);
-		modelo.addAttribute("preparaciones", preparacionService.getAll()); // muestra todo inicialmente
+		modelo.addAttribute("preparaciones", preparacionService.getAll(true)); // muestra todo inicialmente
 		return "preparacionesBuscar";
-	}*/
+	}
 	
 	@ModelAttribute("allRecetas")
     public List<Receta> getAllRecetas() {
         return this.recetaService.getAll();
     }
 	
-	/*@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public String submit(@ModelAttribute("formBean") @Valid PreparacionBuscarForm formBean, BindingResult result,
 						 ModelMap modelo, @RequestParam String action) {
 
@@ -72,6 +73,6 @@ public class PreparacionBuscarController {
 		}
 		
 		return "redirect:/";
-	}*/
+	}
 	
 }
