@@ -10,6 +10,9 @@
 	<div th:if="${success}" style="color: green; font-weight: bold;">
 	    <p th:text="${success}"></p>
 	</div>
+	<div th:if="${error}" style="color: red; font-weight: bold;">
+	    <p th:text="${error}"></p>
+	</div>
 	    <form th:action="@{/recetasMenu/alta}" th:object="${receta}" method="post">
 	        <label for="nombre">Nombre:</label>
 	        <input type="text" id="nombre" th:field="*{nombre}" required />
@@ -21,8 +24,8 @@
 			    <select th:field="*{items[__${iterStat.index}__].ingrediente.id}">
 			        <option th:each="ing : ${ingredientes}" th:value="${ing.id}" th:text="${ing.nombre}"></option>
 			    </select>
-			    <input type="number" th:field="*{items[__${iterStat.index}__].cantidad}" min="1" step="1" placeholder="cantidad" />
-			    <input type="number" th:field="*{items[__${iterStat.index}__].calorias}" min="0" step="1"  placeholder="calorias"/>
+			    <input type="number" th:field="*{items[__${iterStat.index}__].cantidad}" min="1" step="1" placeholder="Cantidad (Kg)" />
+			    <input type="number" th:field="*{items[__${iterStat.index}__].calorias}" min="0" step="1"  placeholder="Calorias"/>
 			</div>
 			<button type="submit" name="addItem">Agregar ingrediente</button>
 	        <button type="submit" name="saveRecipe">Guardar</button>
