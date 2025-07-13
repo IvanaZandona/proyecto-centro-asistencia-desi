@@ -12,18 +12,29 @@
 	<div th:if="${#lists.isEmpty(recetas)}" style="color:red; font-weight:bold;">
 		No tiene recetas cargadas. Por favor, cargue una.
 	</div>
+	
+	<form th:action="@{/recetasMenu/listado}" method="get">
+	    <label>Calorías máximas:</label>
+	    <input type="number" name="maxCalorias" min="0"/>
+	    <button type="submit">Filtrar</button>
+	</form>
+
 	<table th:if="${not #lists.isEmpty(recetas)}">
 		<tr>
 			<th>Id</th>
 			<th>Nombre</th>
 			<th>Descripcion</th>
+			<th>Total Calorías</th>
 			<th>Ingredientes</th>
 			<th>Acciones</th>
+			
+
 		</tr>
 		<tr th:each="receta : ${recetas}">
 			<td th:text="${receta.id}"></td>
 			<td th:text="${receta.nombre}"></td>
 			<td th:text="${receta.descripcion}"></td>
+			<td th:text="${receta.caloriasTotales}"></td>
 			<td>
 				<ul>
 					<li th:each="item : ${receta.items}" th:text="${item.ingrediente.nombre}">

@@ -91,6 +91,14 @@ public class Receta {
 	public Boolean isActiva() { 
 		return activa; 
 	}
+	@Transient
+	public int getCaloriasTotales() {
+	    return items.stream()
+	        .filter(ItemReceta::isActiva)
+	        .mapToInt(item -> item.getCalorias() != null ? item.getCalorias() : 0)
+	        .sum();
+	}
+
 
 	
     

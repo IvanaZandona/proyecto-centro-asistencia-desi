@@ -75,11 +75,21 @@ public class RecetaRegistrarEditarController {
 	}
 	
 	@RequestMapping(value = "/listado", method = RequestMethod.GET)
-	public String listarRecetas(Model modelo) {
-		    List<Receta> recetas = recetaService.getAll();
-		    modelo.addAttribute("recetas", recetas);
-		    return "listadoRecetas";
+	public String listarRecetas(@RequestParam(value = "maxCalorias", required = false) Integer maxCalorias, Model modelo) {
+	    List<Receta> recetas = recetaService.getAll();
+	    if (maxCalorias != null) {
+	        recetas = recetas.stream()
+	            .filter(r -> r.getItems().stream()
+	                .filter(ItemReceta::isActiva)
+	                .mapToInt(ItemReceta::getCalorias)
+	                .sum() <= maxCalorias
+	            )
+	            .collect(Collectors.toList());
+	    }
+	    modelo.addAttribute("recetas", recetas);
+	    return "listadoRecetas";
 	}
+
 	
 	@RequestMapping(value = "/editar/{id}", method = RequestMethod.GET)
 	public String mostratFormularioEditar(@PathVariable("id") Long id, Model modelo ) throws Excepcion {
