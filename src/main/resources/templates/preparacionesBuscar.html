@@ -13,8 +13,8 @@
 	<form th:action="@{/preparacionesBuscar}" th:object="${formBean}" method="post">
 		<table border="1" style="align-self: center;">
 		<tr>
-	    <td><label for="id">ID:</label></td>
-	    <td><input type="text" th:field="*{id}" /></td>
+	    <td><label for="fecha_coccion">Fecha Coccion:</label></td>
+	    <td><input type="date" th:field="*{fechaCoccion}" /></td>
 		</tr>
 		<tr>
 		<td><label for="recetaSeleccionada">Receta:</label></td>
@@ -27,14 +27,14 @@
 			</select>
 		</td>
 		</tr>
-		<tr>
+		<!--<tr>
 			<td>
 				<label for="soloActivo">Excluir Eliminados:</label>
 			</td>
 			<td>
 				<input type="checkbox" id="soloActivo" th:field="*{soloActivo}" />
 			</td>
-		</tr>
+		</tr>-->
 		</table>
 	    <br/>
 		<table class="botones">

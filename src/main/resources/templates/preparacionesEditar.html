@@ -7,7 +7,7 @@
 </head>
 <body>
 	<h2 th:text="${formBean.id} ? #{preparacion.editar.titulo}: #{preparacion.alta.titulo}" />
-	   <form th:action="@{/preparacionesMenu/editar}" th:object="${formBean}" method="post">
+	   <form th:action="${formBean.id} ? @{/preparacionesMenu/editar}:@{/preparacionesMenu/alta}" th:object="${formBean}" method="post">
 		<table border="0">
 		<tr>
 		<input type="hidden" id="id" th:field="*{id}">
@@ -22,7 +22,7 @@
 		<td><label for="totalRacionesPreparadas">Total Raciones Preparadas:</label></td>
 		<td><input type="number" id="totalRacionesPreparadas" th:field="*{totalRacionesPreparadas}" required /></td>
 		</tr>
-		<tr>
+		<tr th:if="${formBean.id}">
 		<td><label for="stockRacionesRestantes">Stock Raciones Restantes:</label></td>
 		<td><input type="number" id="stockRacionesRestantes" th:field="*{stockRacionesRestantes}" required /></td>
 		</tr>
@@ -34,7 +34,7 @@
 	    <td><button type="submit" th:text="${formBean.id} ? #{preparacion.editar.boton}: #{preparacion.alta.boton}"></button></td>
 		</tr>
 		<tr>
-		<td></td>
+		<td><h2 th:text="${errorMsg}"/></td>
 		</tr>
 		<tr>
 		<td><a th:href="${formBean.id} ? @{/preparacionesMenu/listado}: @{/preparacionesMenu}">← Volver</a></td>

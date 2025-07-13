@@ -24,7 +24,10 @@ public class IngredienteServiceImpl implements IngredienteService {
 	@Autowired
 	private IProductoRepo productoRepo;
 	
-	
+	@Override
+	public Ingrediente getById(Long id) {
+		return ingredienteRepo.findById(id).orElse(null);
+	}
 
 	@Override
 	public List<Ingrediente> getAll(){
@@ -62,6 +65,11 @@ public class IngredienteServiceImpl implements IngredienteService {
 	public void save(Ingrediente ingrediente, Long idCondimento, Long idProducto) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void save(Ingrediente ingrediente) {
+		ingredienteRepo.save(ingrediente);
 	}
 		
 	

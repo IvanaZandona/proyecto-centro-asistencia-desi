@@ -2,6 +2,7 @@ package com.example.demo.presentacion;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entidades.Receta;
 import com.example.demo.entidades.Preparacion;
+import com.example.demo.entidades.ItemReceta;
+import com.example.demo.entidades.Ingrediente;
 import com.example.demo.excepciones.Excepcion;
 import com.example.demo.servicios.PreparacionService;
 import com.example.demo.servicios.RecetaService;
+import com.example.demo.servicios.IngredienteService;
 
 import jakarta.validation.Valid;
 
@@ -36,6 +40,9 @@ public class PreparacionRegistrarEditarController {
 	
 	@Autowired
 	private RecetaService recetaService;
+	
+	@Autowired
+	private IngredienteService ingredienteService;
 
 	@RequestMapping(method = RequestMethod.GET)
     public String mostrarMenu(Model modelo) {
@@ -79,23 +86,40 @@ public class PreparacionRegistrarEditarController {
 	
 	@RequestMapping(value = "/alta", method = RequestMethod.POST)
     public String submitAlta(@ModelAttribute("formBean") @Valid PreparacionForm formBean,
-                              BindingResult result, ModelMap modelo) {
+                              BindingResult result, ModelMap modelo) throws Exception{
         if (result.hasErrors()) {
             modelo.addAttribute("formBean", formBean);
             modelo.addAttribute("recetas", recetaService.getAll());
+            modelo.addAttribute("errorMsg", result.getFieldError().getDefaultMessage());
             return "preparacionesEditar";
         } else {
             try {
                 Preparacion preparacion = formBean.toPojo();
                 preparacion.setReceta(recetaService.getById(formBean.getIdreceta()));
+                preparacion.setActivo(true);
+                preparacion.setStockRacionesRestantes(preparacion.getTotalRacionesPreparadas());
+                Receta r = preparacion.getReceta();
+                List<Ingrediente> ingList = new ArrayList<Ingrediente>();
+                for(ItemReceta i : r.getItems()){
+                	Ingrediente ing = ingredienteService.getById(i.getId());
+                	if (ing.getCantidad() >= i.getCantidad() * preparacion.getTotalRacionesPreparadas()) {
+                		ing.setCantidad(ing.getCantidad() - (i.getCantidad() * preparacion.getTotalRacionesPreparadas()));
+                		ingList.add(ing);
+                	} else {
+                		throw new Exception("No hay suficientes ingredientes!");
+                	}
+                }
+                for(Ingrediente i : ingList) {
+                	ingredienteService.save(i);
+                }
                 preparacionService.save(preparacion);
                 return "redirect:/preparacionesMenu/listado";
             } catch (Excepcion e) {
                 result.addError(new ObjectError("globalError", e.getMessage()));
-                e.printStackTrace();
+                System.out.println("Error!" + e.getMessage());
                 modelo.addAttribute("formBean", formBean);
                 modelo.addAttribute("recetas", recetaService.getAll());
-                modelo.addAttribute("errorMsg", e.toString());
+                modelo.addAttribute("errorMsg", e.getMessage());
                 return "preparacionesEditar";
             }
         }

@@ -1,23 +1,21 @@
 package com.example.demo.presentacion;
 import java.util.List;
+import java.time.LocalDate;
 import com.example.demo.entidades.Receta;
 public class PreparacionBuscarForm {
 
-	private Long Id;
+	private LocalDate fechaCoccion;
 	private Long recetaSeleccionada;
-	private boolean soloActivo = true;
-	
+	//private boolean soloActivo = true;
 	private List<Receta> recetas;
 
-	public Long getId() {
-		if (Id != null )
-			return Id;
-		else
-			return null;
+	
+	public LocalDate getFechaCoccion() {
+		return this.fechaCoccion;
 	}
-
-	public void setId(Long id) {
-		this.Id = id;
+	
+	public void setFechaCoccion(LocalDate fechaCoccion) {
+		this.fechaCoccion = fechaCoccion;
 	}
 	
 	public List<Receta> getRecetas(){
@@ -36,12 +34,12 @@ public class PreparacionBuscarForm {
 		this.recetaSeleccionada = idreceta;
 	}
 	
-	public void setSoloActivo(boolean activo) {
+	/*public void setSoloActivo(boolean activo) {
 		this.soloActivo = activo;
 	}
 	
 	public boolean getSoloActivo() {
 		return this.soloActivo;
-	}
+	}*/
 	
 }

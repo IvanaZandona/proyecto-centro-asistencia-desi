@@ -7,8 +7,7 @@ import java.util.List;
 import com.example.demo.entidades.Receta;
 import com.example.demo.entidades.Preparacion;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
 public class PreparacionForm {
 
@@ -18,6 +17,7 @@ public class PreparacionForm {
 	
 	private Integer stock_raciones_restantes;
 	@NotNull
+	@PastOrPresent(message = "La fecha de cocción no puede ser en el futuro")
 	private LocalDate fechaCoccion;
 	
     private Long  idreceta; 

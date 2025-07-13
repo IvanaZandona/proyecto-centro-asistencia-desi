@@ -41,21 +41,17 @@ public class PreparacionServiceImpl implements PreparacionService {
 
 	@Override 
 	public List<Preparacion> filter(PreparacionBuscarForm filter) throws Excepcion {
-		if (filter.getId() == null && filter.getRecetaSeleccionada() == null) {
+		if (filter.getFechaCoccion() == null && filter.getRecetaSeleccionada() == null) {
 			throw new Excepcion("Es necesario al menos un filtro");
 		} else {
-			if (filter.getId() != null) {
-				if (filter.getSoloActivo() == true) {
-					return List.of(preparacionRepo.findByIdActivo(filter.getId()));
+			if (filter.getFechaCoccion() != null) {
+				if (filter.getRecetaSeleccionada() != null) {
+					return preparacionRepo.findByFechaReceta(filter.getFechaCoccion(), filter.getRecetaSeleccionada());
 				} else {
-					return List.of(preparacionRepo.findById(filter.getId()).orElse(null));
+					return preparacionRepo.findByFecha(filter.getFechaCoccion());
 				}
 			} else {
-				if (filter.getSoloActivo() == true) {
-					return preparacionRepo.findByRecetaActivo(filter.getRecetaSeleccionada());
-				} else {
-					return preparacionRepo.findByReceta(filter.getRecetaSeleccionada());
-				}
+				return preparacionRepo.findByRecetaActivo(filter.getRecetaSeleccionada());
 			}
 		}
 	}

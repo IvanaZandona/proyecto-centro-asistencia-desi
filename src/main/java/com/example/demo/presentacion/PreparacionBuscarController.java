@@ -40,7 +40,7 @@ public class PreparacionBuscarController {
 	public String preparacionForm(Model modelo) {
 		PreparacionBuscarForm form = new PreparacionBuscarForm();
 		form.setRecetas(recetaService.getAll());
-		form.setSoloActivo(true);
+		//form.setSoloActivo(true);
 		modelo.addAttribute("formBean", form);
 		modelo.addAttribute("preparaciones", preparacionService.getAll(true)); // muestra todo inicialmente
 		return "preparacionesBuscar";
