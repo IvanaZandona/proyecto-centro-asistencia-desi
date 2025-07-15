@@ -10,6 +10,7 @@ public class EntregaAsistencia {
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "identrega_asistencia")
 	private Long id;
 	
 	@Column(name = "fecha")
