@@ -1,6 +1,7 @@
 package com.example.demo.presentacion;
 import java.util.List;
 import java.time.LocalDate;
+import org.springframework.format.annotation.DateTimeFormat;
 import com.example.demo.entidades.Receta;
 public class PreparacionBuscarForm {
 
@@ -9,7 +10,7 @@ public class PreparacionBuscarForm {
 	//private boolean soloActivo = true;
 	private List<Receta> recetas;
 
-	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	public LocalDate getFechaCoccion() {
 		return this.fechaCoccion;
 	}

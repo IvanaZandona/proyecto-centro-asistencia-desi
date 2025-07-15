@@ -12,11 +12,14 @@
 		<tr>
 		<input type="hidden" id="id" th:field="*{id}">
 		<td><label for="idreceta">Receta:</label></td>
-		<td><select id="idreceta" th:field="*{idreceta}" required>
+		<td th:if="${formBean.id}"><select id="idreceta" th:field="*{idreceta}" required>
 			<option th:each="r : ${recetas}" 
 				th:value="${r.id}" 
 				th:text="${r.nombre}"></option>
 		</select></td>
+		<td th:unless="${formBean.id}">
+			<label th:text="*{nombreReceta}"></label>
+		</td>
 		</tr>
 		<tr>
 		<td><label for="totalRacionesPreparadas">Total Raciones Preparadas:</label></td>

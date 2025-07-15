@@ -3,7 +3,7 @@ package com.example.demo.presentacion;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+import org.springframework.format.annotation.DateTimeFormat;
 import com.example.demo.entidades.Receta;
 import com.example.demo.entidades.Preparacion;
 
@@ -16,8 +16,10 @@ public class PreparacionForm {
 	private Integer total_raciones_preparadas;
 	
 	private Integer stock_raciones_restantes;
+	
 	@NotNull
 	@PastOrPresent(message = "La fecha de cocción no puede ser en el futuro")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaCoccion;
 	
     private Long  idreceta; 
@@ -47,7 +49,7 @@ public class PreparacionForm {
 		preparacion.setTotalRacionesPreparadas(total_raciones_preparadas);
 		preparacion.setStockRacionesRestantes(stock_raciones_restantes);
 		preparacion.setFechaCoccion(fechaCoccion);
-		preparacion.setActivo(activo);
+		preparacion.setActivo(true);
         return preparacion;
 	}
 
