@@ -24,7 +24,7 @@
 			    <select th:field="*{items[__${iterStat.index}__].ingrediente.id}">
 			        <option th:each="ing : ${ingredientes}" th:value="${ing.id}" th:text="${ing.nombre}"></option>
 			    </select>
-			    <input type="number" th:field="*{items[__${iterStat.index}__].cantidad}" min="1" step="1" placeholder="Cantidad (Kg)" />
+				<input type="number" th:field="*{items[__${iterStat.index}__].cantidad}" min="0.01" step="0.01" placeholder="Cantidad (Kg)" required />
 			    <input type="number" th:field="*{items[__${iterStat.index}__].calorias}" min="0" step="1"  placeholder="Calorias"/>
 			</div>
 			<button type="submit" name="addItem">Agregar ingrediente</button>

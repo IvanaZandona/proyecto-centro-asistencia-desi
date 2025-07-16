@@ -74,7 +74,7 @@ public class RecetaServiceImpl implements RecetaService {
  
             item.setIngrediente(ingredientePersistente);
             
-            if (item.getCantidad() == null || item.getCantidad() <= 0) {
+            if (item.getCantidad() == null || item.getCantidad() <= 0f) {
                 throw new Exception("La cantidad debe ser mayor a cero");
             }
             if (item.getCalorias() == null || item.getCalorias() < 0) {

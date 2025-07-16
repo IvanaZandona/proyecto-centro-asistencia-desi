@@ -20,7 +20,7 @@ public class ItemReceta {
     private Ingrediente ingrediente;
 
     @Column(name = "cantidad")
-    private Integer cantidad;
+    private Float cantidad;
 
     @Column(name = "calorias")
     private Integer calorias;
@@ -32,13 +32,13 @@ public class ItemReceta {
 	    // Constructor vacío requerido por JPA
 	}
 	
-	public ItemReceta(Integer cantidad, Integer calorias, Boolean activa) {
+	public ItemReceta(Float cantidad, Integer calorias, Boolean activa) {
 		this.cantidad = cantidad;
 		this.calorias = calorias;
 		this.activa = activa;
 	}
 	
-	public Integer getCantidad() {
+	public Float getCantidad() {
         return cantidad;
     }
 	
@@ -46,7 +46,7 @@ public class ItemReceta {
         return calorias;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(Float cantidad) {
         this.cantidad = cantidad;
     }
    
