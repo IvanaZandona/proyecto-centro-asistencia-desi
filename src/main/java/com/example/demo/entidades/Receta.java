@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Receta {
 	
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idreceta")
 	private Long id;
     
