@@ -7,6 +7,7 @@ public class PreparacionBuscarForm {
 
 	private LocalDate fechaCoccion;
 	private Long recetaSeleccionada;
+	private int calorias;
 	//private boolean soloActivo = true;
 	private List<Receta> recetas;
 
@@ -42,5 +43,13 @@ public class PreparacionBuscarForm {
 	public boolean getSoloActivo() {
 		return this.soloActivo;
 	}*/
+	
+	public int getCalorias() {
+		return this.calorias;
+	}
+	
+	public void setCalorias(int calorias) {
+		this.calorias = calorias;
+	}
 	
 }
