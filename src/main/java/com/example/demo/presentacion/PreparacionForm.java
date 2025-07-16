@@ -13,9 +13,9 @@ public class PreparacionForm {
 
 	private Long id;
 
-	private Integer total_raciones_preparadas;
+	private Integer totalRacionesPreparadas;
 	
-	private Integer stock_raciones_restantes;
+	private Integer stockRacionesRestantes;
 	
 	@NotNull
 	@PastOrPresent(message = "La fecha de cocción no puede ser en el futuro")
@@ -26,6 +26,8 @@ public class PreparacionForm {
     
     private String nombreReceta;
     
+    private Receta receta;
+    
     private boolean activo;
 
 	public PreparacionForm() {
@@ -35,19 +37,20 @@ public class PreparacionForm {
 	public PreparacionForm(Preparacion p) {
 		super();
 		this.id = p.getId();
-		this.total_raciones_preparadas = p.getTotalRacionesPreparadas();
-		this.stock_raciones_restantes = p.getStockRacionesRestantes();
+		this.totalRacionesPreparadas = p.getTotalRacionesPreparadas();
+		this.stockRacionesRestantes = p.getStockRacionesRestantes();
 		this.fechaCoccion = p.getFechaCoccion();
 		this.idreceta = p.getReceta().getId();
 		this.nombreReceta = p.getReceta().getNombre();
+		this.receta = p.getReceta();
 		this.activo = p.getActivo();
 	}
 
 	public Preparacion toPojo() {
 		Preparacion preparacion = new Preparacion();
 		preparacion.setId(this.id);
-		preparacion.setTotalRacionesPreparadas(total_raciones_preparadas);
-		preparacion.setStockRacionesRestantes(stock_raciones_restantes);
+		preparacion.setTotalRacionesPreparadas(this.totalRacionesPreparadas);
+		preparacion.setStockRacionesRestantes(this.stockRacionesRestantes);
 		preparacion.setFechaCoccion(fechaCoccion);
 		preparacion.setActivo(true);
         return preparacion;
@@ -62,19 +65,19 @@ public class PreparacionForm {
 	}
 
 	public Integer getTotalRacionesPreparadas() {
-		return total_raciones_preparadas;
+		return totalRacionesPreparadas;
 	}
 
 	public void setTotalRacionesPreparadas(Integer totalRaciones) {
-		this.total_raciones_preparadas = totalRaciones;
+		this.totalRacionesPreparadas = totalRaciones;
 	}
 
 	public Integer getStockRacionesRestantes() {
-		return stock_raciones_restantes;
+		return stockRacionesRestantes;
 	}
 
 	public void setStockRacionesRestantes(Integer stockRaciones) {
-		this.stock_raciones_restantes = stockRaciones;
+		this.stockRacionesRestantes = stockRaciones;
 	}
 
 	public LocalDate getFechaCoccion() {
@@ -93,11 +96,11 @@ public class PreparacionForm {
 		return this.idreceta;
 	}
 	
-	public String getnombreReceta() {
+	public String getNombreReceta() {
 		return this.nombreReceta;
 	}
 	
-	public void setnombreReceta(String nombreReceta) {
+	public void setNombreReceta(String nombreReceta) {
 		this.nombreReceta = nombreReceta;
 	}
 	

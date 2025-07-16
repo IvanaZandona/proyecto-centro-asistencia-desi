@@ -2,11 +2,16 @@ package com.example.demo.servicios;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import java.util.List;
+import java.util.ArrayList;
 import com.example.demo.accesoDatos.IPreparacionRepo;
 import com.example.demo.entidades.Preparacion;
+import com.example.demo.entidades.Producto;
+import com.example.demo.entidades.Receta;
+import com.example.demo.entidades.ItemReceta;
 import com.example.demo.excepciones.Excepcion;
 import com.example.demo.presentacion.PreparacionBuscarForm;
+import com.example.demo.accesoDatos.IProductoRepo;
 
 import java.util.List;
 
@@ -15,6 +20,12 @@ public class PreparacionServiceImpl implements PreparacionService {
 
 	@Autowired
     private IPreparacionRepo preparacionRepo;
+	
+	@Autowired
+	private IProductoRepo productoRepo;
+	
+	@Autowired
+	private IngredienteServiceImpl ingredienteService;
 	
 	@Override
 	public List<Preparacion> getAll() {
@@ -31,6 +42,28 @@ public class PreparacionServiceImpl implements PreparacionService {
 
 	@Override
 	public void save(Preparacion preparacion) throws Excepcion {
+		if (preparacion.getId() != null) {
+            if (preparacion.getTotalRacionesPreparadas() < preparacion.getStockRacionesRestantes()) {
+            	throw new Excepcion("No puede haber mas stock que raciones preparadas");
+            }
+		} else {
+			Receta r = preparacion.getReceta();
+			List<Producto> prodList = new ArrayList<Producto>();
+			for(ItemReceta i : r.getItems()){
+				Producto p = productoRepo.getById(i.getIngrediente().getId());
+				if (p != null) {
+					if (p.getStockDisponible() >= i.getCantidad() * preparacion.getTotalRacionesPreparadas()) {
+						p.setStockDisponible(p.getStockDisponible() - (i.getCantidad() * preparacion.getTotalRacionesPreparadas()));
+						prodList.add(p);
+					} else {
+						throw new Excepcion("No hay suficientes ingredientes!");
+					}
+				}
+			}
+			for(Producto p : prodList) {
+				productoRepo.save(p);
+			}
+		}
 		preparacionRepo.save(preparacion);
 	}
 

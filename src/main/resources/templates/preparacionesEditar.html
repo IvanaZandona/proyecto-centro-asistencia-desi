@@ -12,18 +12,15 @@
 		<tr>
 		<input type="hidden" id="id" th:field="*{id}">
 		<td><label for="idreceta">Receta:</label></td>
-		<td th:if="${formBean.id}"><select id="idreceta" th:field="*{idreceta}" required>
+		<td><select id="idreceta" th:field="*{idreceta}" th:disabled="${formBean.id}" required>
 			<option th:each="r : ${recetas}" 
 				th:value="${r.id}" 
 				th:text="${r.nombre}"></option>
-		</select></td>
-		<td th:unless="${formBean.id}">
-			<label th:text="*{nombreReceta}"></label>
-		</td>
+		</select><input th:if="${formBean.id}" type="hidden" th:field="*{idreceta}"></td>
 		</tr>
 		<tr>
 		<td><label for="totalRacionesPreparadas">Total Raciones Preparadas:</label></td>
-		<td><input type="number" id="totalRacionesPreparadas" th:field="*{totalRacionesPreparadas}" required /></td>
+		<td><input type="number" id="totalRacionesPreparadas" th:field="*{totalRacionesPreparadas}" required th:readonly="${formBean.id}!=null" /></td>
 		</tr>
 		<tr th:if="${formBean.id}">
 		<td><label for="stockRacionesRestantes">Stock Raciones Restantes:</label></td>
@@ -40,7 +37,7 @@
 		<td><h2 th:text="${errorMsg}"/></td>
 		</tr>
 		<tr>
-		<td><a th:href="${formBean.id} ? @{/preparacionesMenu/listado}: @{/preparacionesMenu}">← Volver</a></td>
+		<td><a th:href="${formBean.id} ? @{/preparacionesBuscar}: @{/preparacionesMenu}">← Volver</a></td>
 		</tr>
 	   </form>
 	   

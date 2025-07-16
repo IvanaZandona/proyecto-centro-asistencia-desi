@@ -67,7 +67,7 @@ public class PreparacionRegistrarEditarController {
         List<Preparacion> preparaciones = preparacionService.getAll(true);
         modelo.addAttribute("formBean", new PreparacionBuscarForm());
         modelo.addAttribute("preparaciones", preparaciones);
-        return "listadoPreparaciones";
+        return "preparacionesBuscar";
     }
 
 	@RequestMapping(value = "/editar/{Id}", method = RequestMethod.GET)
@@ -81,12 +81,12 @@ public class PreparacionRegistrarEditarController {
 	@RequestMapping(value = "/eliminar/{Id}", method = RequestMethod.GET)
     public String delete(@PathVariable("Id") Long Id) {
         preparacionService.deleteById(Id);
-        return "redirect:/preparacionesMenu/listado";
+        return "redirect:/preparacionesBuscar";
     }
 	
 	@RequestMapping(value = "/alta", method = RequestMethod.POST)
     public String submitAlta(@ModelAttribute("formBean") @Valid PreparacionForm formBean,
-                              BindingResult result, ModelMap modelo) throws Exception{
+                              BindingResult result, ModelMap modelo) {
         if (result.hasErrors()) {
             modelo.addAttribute("formBean", formBean);
             modelo.addAttribute("recetas", recetaService.getAll());
@@ -95,28 +95,20 @@ public class PreparacionRegistrarEditarController {
         } else {
             try {
                 Preparacion preparacion = formBean.toPojo();
+                System.out.println("IdReceta: " + formBean.getIdreceta());
                 preparacion.setReceta(recetaService.getById(formBean.getIdreceta()));
                 preparacion.setActivo(true);
                 preparacion.setStockRacionesRestantes(preparacion.getTotalRacionesPreparadas());
-                Receta r = preparacion.getReceta();
-                List<Ingrediente> ingList = new ArrayList<Ingrediente>();
-                for(ItemReceta i : r.getItems()){
-                	Ingrediente ing = ingredienteService.getById(i.getId());
-                	if (ing.getCantidad() >= i.getCantidad() * preparacion.getTotalRacionesPreparadas()) {
-                		ing.setCantidad(ing.getCantidad() - (i.getCantidad() * preparacion.getTotalRacionesPreparadas()));
-                		ingList.add(ing);
-                	} else {
-                		throw new Exception("No hay suficientes ingredientes!");
-                	}
-                }
-                for(Ingrediente i : ingList) {
-                	ingredienteService.save(i);
-                }
                 preparacionService.save(preparacion);
-                return "redirect:/preparacionesMenu/listado";
+                return "redirect:/preparacionesBuscar";
             } catch (Excepcion e) {
                 result.addError(new ObjectError("globalError", e.getMessage()));
-                System.out.println("Error!" + e.getMessage());
+                modelo.addAttribute("formBean", formBean);
+                modelo.addAttribute("recetas", recetaService.getAll());
+                modelo.addAttribute("errorMsg", e.getMessage());
+                return "preparacionesEditar";
+            } catch (Exception e) {
+                result.addError(new ObjectError("globalError", e.getMessage()));
                 modelo.addAttribute("formBean", formBean);
                 modelo.addAttribute("recetas", recetaService.getAll());
                 modelo.addAttribute("errorMsg", e.getMessage());
@@ -137,11 +129,18 @@ public class PreparacionRegistrarEditarController {
                 Preparacion preparacion = formBean.toPojo();
                 preparacion.setReceta(recetaService.getById(formBean.getIdreceta()));
                 preparacionService.save(preparacion);
-                return "redirect:/preparacionesMenu/listado";
+                return "redirect:/preparacionesBuscar";
             } catch (Excepcion e) {
                 result.addError(new ObjectError("globalError", e.getMessage()));
                 modelo.addAttribute("formBean", formBean);
                 modelo.addAttribute("recetas", recetaService.getAll());
+                modelo.addAttribute("errorMsg", e.getMessage());
+                return "preparacionesEditar";
+            } catch (Exception e) {
+                result.addError(new ObjectError("globalError", e.getMessage()));
+                modelo.addAttribute("formBean", formBean);
+                modelo.addAttribute("recetas", recetaService.getAll());
+                modelo.addAttribute("errorMsg", e.getMessage());
                 return "preparacionesEditar";
             }
         }

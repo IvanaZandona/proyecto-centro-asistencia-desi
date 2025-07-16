@@ -66,7 +66,7 @@ public class PreparacionBuscarController {
 			return "preparacionesBuscar";
 		}
 		else if (action.equals("actionRegistrar")) {
-			return "redirect:/preparacionEditar"; 
+			return "redirect:/preparacionesMenu/alta"; 
 		}
 		else if (action.equals("actionCancelar")) {
 			return "redirect:/";
