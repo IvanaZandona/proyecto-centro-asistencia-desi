@@ -24,7 +24,7 @@
 		</tr>
 		<tr th:if="${formBean.id}">
 		<td><label for="stockRacionesRestantes">Stock Raciones Restantes:</label></td>
-		<td><input type="number" id="stockRacionesRestantes" th:field="*{stockRacionesRestantes}" required /></td>
+		<td><input type="number" id="stockRacionesRestantes" th:field="*{stockRacionesRestantes}" readonly/></td>
 		</tr>
 		<tr>
 		<td><label for="fechaCoccion">Fecha Cocción:</label></td>
