@@ -75,20 +75,29 @@ public class RecetaRegistrarEditarController {
 	}
 	
 	@RequestMapping(value = "/listado", method = RequestMethod.GET)
-	public String listarRecetas(@RequestParam(value = "maxCalorias", required = false) Integer maxCalorias, Model modelo) {
+	public String listarRecetas(
+	    @RequestParam(value = "minCalorias", required = false) Integer minCalorias,
+	    @RequestParam(value = "maxCalorias", required = false) Integer maxCalorias,
+	    Model modelo) {
+
 	    List<Receta> recetas = recetaService.getAll();
-	    if (maxCalorias != null) {
+	    if (minCalorias != null || maxCalorias != null) {
 	        recetas = recetas.stream()
-	            .filter(r -> r.getItems().stream()
-	                .filter(ItemReceta::isActiva)
-	                .mapToInt(ItemReceta::getCalorias)
-	                .sum() <= maxCalorias
-	            )
+	            .filter(r -> {
+	                int total = r.getItems().stream()
+	                              .filter(ItemReceta::isActiva)
+	                              .mapToInt(ItemReceta::getCalorias)
+	                              .sum();
+	                boolean cumpleMin = (minCalorias == null) || (total >= minCalorias);
+	                boolean cumpleMax = (maxCalorias == null) || (total <= maxCalorias);
+	                return cumpleMin && cumpleMax;
+	            })
 	            .collect(Collectors.toList());
 	    }
 	    modelo.addAttribute("recetas", recetas);
 	    return "listadoRecetas";
 	}
+
 
 	
 	@RequestMapping(value = "/editar/{id}", method = RequestMethod.GET)

@@ -14,6 +14,8 @@
 	</div>
 	
 	<form th:action="@{/recetasMenu/listado}" method="get">
+	    <label>Calorías mínimas:</label>
+	    <input type="number" name="minCalorias" min="0"/>
 	    <label>Calorías máximas:</label>
 	    <input type="number" name="maxCalorias" min="0"/>
 	    <button type="submit">Filtrar</button>
