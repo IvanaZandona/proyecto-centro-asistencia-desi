@@ -12,8 +12,9 @@
 	<div th:if="${#lists.isEmpty(recetas)}" style="color:red; font-weight:bold;">
 		No tiene recetas cargadas. Por favor, cargue una.
 	</div>
-	
-	<form th:action="@{/recetasMenu/listado}" method="get">
+
+	<form th:if="${not #lists.isEmpty(recetas)}"
+	      th:action="@{/recetasMenu/listado}" method="get">
 	    <label>Calorías mínimas:</label>
 	    <input type="number" name="minCalorias" min="0"/>
 	    <label>Calorías máximas:</label>
